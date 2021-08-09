@@ -34,13 +34,15 @@ import kotlin.reflect.KClass
 annotation class StatemeantType(
         /**
          * Configures the [BelongsToContract] annotation added to the generated [ContractState].
-         * Takes precedence over [contractClassName],using one of the two is required.
+         * Takes precedence over [contractClassName],using one of the two is required,
+         * unless the annotated interface is contained in a [Contract] type.
          */
         val contractClass: KClass<out Contract> = Contract::class,
 
         /**
          * Configures the [BelongsToContract] annotation added to the generated [ContractState]..
-         * Required and Convenient when [contractClass] cannot be used at build time.
+         * Required unless [contractClass] is used instead or the annotated interface is contained
+         * in a [Contract] type, otherwise convenient when [contractClass] cannot be used at build time.
          */
         val contractClassName: String = "",
 

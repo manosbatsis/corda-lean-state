@@ -52,7 +52,6 @@ class NewsPaperContract : Contract {
     }
 
     @StatemeantType(
-            contractClass = NewsPaperContract::class,
             persistentMappingModes = [
                 StatemeantPropertyMappingMode.NATIVE,
                 StatemeantPropertyMappingMode.STRINGIFY,

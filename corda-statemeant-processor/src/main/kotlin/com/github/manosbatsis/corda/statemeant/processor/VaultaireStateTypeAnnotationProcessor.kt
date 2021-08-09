@@ -36,7 +36,7 @@ import javax.lang.model.SourceVersion
  * Kapt processor for generating (Corda) state-based DTOs.
  */
 @SupportedAnnotationTypes(
-        "com.github.manosbatsis.corda.statemeant.annotation.VaultaireStateType")
+        "com.github.manosbatsis.corda.statemeant.annotation.StatemeantType")
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @SupportedOptions(AnnotationProcessorBase.KAPT_OPTION_NAME_KAPT_KOTLIN_GENERATED)
 class VaultaireStateTypeAnnotationProcessor : AbstractAnnotatedModelInfoProcessor(
@@ -66,7 +66,7 @@ class VaultaireStateTypeAnnotationProcessor : AbstractAnnotatedModelInfoProcesso
             strategy.onBeforeFileWrite(fileBuilder)
             fileBuilder.addComment("\n")
                     .addComment("----------------------------------------------------\n")
-                    .addComment("Vaultaire Annotation Processing Info\n")
+                    .addComment("Annotation Processing Info\n")
                     .addComment("----------------------------------------------------\n")
                     .addComment("Annotation: ${annElem.annotation.annotationType}\n")
                     .addComment("Source Elements\n")

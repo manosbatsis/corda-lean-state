@@ -28,6 +28,7 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.TypeSpec.Builder
 import net.corda.core.contracts.BelongsToContract
 import net.corda.core.contracts.Contract
+import javax.lang.model.element.TypeElement
 
 open class ContractStateTypeStrategy(
         rootDtoStrategy: DtoStrategyLesserComposition
@@ -45,10 +46,13 @@ open class ContractStateTypeStrategy(
 
     override fun addAnnotations(typeSpecBuilder: Builder) {
         val contractType = with(annotatedElementInfo.annotation){
-            findValueAsTypeElement("contractClass")
+                    findValueAsTypeElement("contractClass")
                     ?.let { if(it.qualifiedName.toString() == Contract::class.qualifiedName) null else it }
                     ?:findAnnotationValueString("contractClassName")
                             ?.let { if(it.isNotBlank()) processingEnvironment.elementUtils.getTypeElement(it) else null }
+                    ?: annotatedElementInfo.primaryTargetTypeElement.enclosingElement?.let {
+                        if(it is TypeElement &&  it.isAssignableTo(Contract::class.java)) it else null
+                    }
                     ?: error("Could not find a target contract using contractClass or contractClassName of $this")
         }
         typeSpecBuilder.addAnnotation(AnnotationSpec.builder(BelongsToContract::class)

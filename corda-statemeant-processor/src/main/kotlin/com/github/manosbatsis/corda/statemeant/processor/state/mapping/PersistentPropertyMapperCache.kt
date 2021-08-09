@@ -26,6 +26,7 @@ import com.github.manosbatsis.kotlin.utils.ProcessingEnvironmentAware
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.asTypeName
+import net.corda.core.contracts.Contract
 import net.corda.core.contracts.ContractState
 import net.corda.core.schemas.PersistentState
 import javax.lang.model.element.Name
