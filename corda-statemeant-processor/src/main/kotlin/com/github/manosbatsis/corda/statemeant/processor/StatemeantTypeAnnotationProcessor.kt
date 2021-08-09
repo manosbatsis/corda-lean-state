@@ -58,7 +58,7 @@ import javax.lang.model.SourceVersion
         "com.github.manosbatsis.corda.statemeant.annotation.StatemeantType")
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @SupportedOptions(AnnotationProcessorBase.KAPT_OPTION_NAME_KAPT_KOTLIN_GENERATED)
-class VaultaireStateTypeAnnotationProcessor : AbstractAnnotatedModelInfoProcessor(
+class StatemeantTypeAnnotationProcessor : AbstractAnnotatedModelInfoProcessor(
         primaryTargetRefAnnotationName = "baseType",
         secondaryTargetRefAnnotationName = ""
 ) {
