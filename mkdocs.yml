@@ -1,0 +1,50 @@
+  # pip install mkdocs mkdocs-material
+# mkdocs serve
+# mkdocs gh-deploy
+
+site_name: Corda Statemeant
+repo_name: corda-statemeant
+repo_url: https://github.com/manosbatsis/corda-statemeant
+site_description: "Generate Corda Contract and Persistent states from a single interface."
+site_author: Manos Batsis
+remote_branch: gh-pages
+google_analytics: ['UA-131279953-1', 'manosbatsis.github.io']
+copyright: 'Copyright &copy; 2019 Manos Batsis'
+
+theme:
+  name: 'material'
+#  logo: 'images/icon-square.png'
+#  favicon: 'images/icon-square.png'
+  palette:
+    primary: 'cyan'
+    accent: 'deep-purple'
+
+#extra_css:
+#  - 'css/app.css'
+
+markdown_extensions:
+  - smarty
+  - codehilite:
+      guess_lang: false
+  - footnotes
+  - meta
+  - toc:
+      permalink: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.emoji
+  - tables
+  - admonition
+
+nav:
+  - 'Overview': index.md
+  - 'Installation': installation.md
+  - 'State Mapping': state-mapping.md
+  - 'Complete Example': complete-example.md
+  - 'FAQ': faq.md
+  - 'Change Log': changelog.md
