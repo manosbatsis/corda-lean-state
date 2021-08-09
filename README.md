@@ -9,7 +9,7 @@ interface like `NewsPaper` bellow:
 
 ```kotlin
 @StatemeantType
-interface NewsPaper: LinearState, QueryableState {
+interface NewsPaper {
    val publisher: Party?
    val author: Party
    val price: BigDecimal
