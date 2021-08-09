@@ -17,6 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
+
 /*
  * Corda Statemeant: Generate Corda Contract and Persistent states
  * from a simplified model interface
