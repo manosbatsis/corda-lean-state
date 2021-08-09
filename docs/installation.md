@@ -10,9 +10,9 @@ apply plugin: 'kotlin-kapt'
 
 dependencies{
     // Core dependency
-    cordaCompile "com.github.manosbatsis.corda.restate:corda-restate:$restate_version"
+    cordaCompile "com.github.manosbatsis.corda.restate:restate-contracts:$restate_version"
     // Annotation processing
-    kapt "com.github.manosbatsis.corda.restate:corda-restate-processor:$restate_version"
+    kapt "com.github.manosbatsis.corda.restate:restate-processor:$restate_version"
 
     // Corda dependencies etc.
     // ...
@@ -28,7 +28,7 @@ Step 2: Add Restate as a Cordapp to your `deployNodes`/`dockerNodes` task:
 ```groovy
 
 // Core dependency
-cordapp "com.github.manosbatsis.corda.restate:corda-restate:$restate_version"
+cordapp "com.github.manosbatsis.corda.restate:restate-contracts:$restate_version"
 ```
 
 Step 3: You may also want to add the generated sources to your cordapp's 
