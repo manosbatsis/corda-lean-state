@@ -8,7 +8,7 @@
 
 set -ex
 
-REPO="https://github.com/manosbatsis/corda-statemeant.git"
+REPO="https://github.com/manosbatsis/corda-restate.git"
 DIR=temp-clone
 
 # Delete any existing temporary website clone

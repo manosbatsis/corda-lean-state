@@ -1,4 +1,4 @@
-rootProject.name = 'corda-statemeant-parent'
-include ':corda-statemeant',
-        ':corda-statemeant-processor',
-        ':corda-statemeant-example-contract'
+rootProject.name = 'restate-parent'
+include ':restate-contracts',
+        ':restate-processor',
+        ':restate-example-contract'

@@ -3,13 +3,13 @@
 ## Source Interface
 
 ```kotlin
-@StatemeantType(
+@RestateType(
         contractClass = NewsPaperContract::class,
-        // Optional, default is [StatemeantPropertyMappingMode.EXPANDED]
+        // Optional, default is [RestatePropertyMappingMode.EXPANDED]
         persistentMappingModes = [
-            StatemeantPropertyMappingMode.NATIVE,
-            StatemeantPropertyMappingMode.STRINGIFY,
-            StatemeantPropertyMappingMode.EXPANDED
+            RestatePropertyMappingMode.NATIVE,
+            RestatePropertyMappingMode.STRINGIFY,
+            RestatePropertyMappingMode.EXPANDED
         ]
 )
 interface NewsPaper {

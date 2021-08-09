@@ -1,14 +1,14 @@
-# Corda Statemeant
+# Corda Restate
 
 > __Note__: This repo contains an early release, i.e. experimental code. 
 
 Are you tired of maintaining consistent Corda Contract to Persistent State mappings?
-Corda Statemeant will use annotation processing during your cordapp's build 
+Corda Restate will use annotation processing during your cordapp's build 
 to (re)generate Corda Contract and Persistent States based on a simplified 
 interface like `NewsPaper` bellow:
 
 ```kotlin
-@StatemeantType
+@RestateType
 interface NewsPaper {
    val publisher: Party?
    val author: Party

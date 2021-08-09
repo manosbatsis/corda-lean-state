@@ -62,7 +62,7 @@ plugins {
 
 apply plugin: 'io.codearte.nexus-staging'
 nexusStaging {
-    packageGroup = 'com.github.manosbatsis.corda.statemeant'
+    packageGroup = 'com.github.manosbatsis.corda.restate'
     stagingProfileId = 'com.github.manosbatsis'
 }
 
@@ -191,8 +191,8 @@ subprojects {
     }
 }
 
-configure([project(':corda-statemeant'),
-           project(':corda-statemeant-processor')]) {
+configure([project(':restate-contracts'),
+           project(':restate-processor')]) {
     apply plugin: 'org.jetbrains.dokka'
     apply plugin: 'maven'
     apply plugin: 'maven-publish'
@@ -211,7 +211,7 @@ configure([project(':corda-statemeant'),
         outputDirectory = javadoc.destinationDir
         linkMapping {
             dir = "src/main/kotlin"
-            url = "https://github.com/manosbatsis/corda-statemeant/tree/master/${project.name}/src/main/kotlin/"
+            url = "https://github.com/manosbatsis/corda-restate/tree/master/${project.name}/src/main/kotlin/"
             suffix = "#L"
         }
     }
@@ -258,12 +258,12 @@ configure([project(':corda-statemeant'),
                     project {
                         name project.name
                         packaging project.name == rootProject.name ? 'pom' : 'jar'
-                        description 'Corda Statemeant: Generate Corda contract and persistent states from a simplified interface'
-                        url 'https://manosbatsis.github.io/corda-statemeant/'
+                        description 'Corda Restate: Generate Corda contract and persistent states from a simplified interface'
+                        url 'https://manosbatsis.github.io/corda-restate/'
                         scm {
-                            connection 'scm:git:git://github.com/manosbatsis/corda-statemeant.git'
-                            developerConnection 'scm:git:ssh://github.com/manosbatsis/corda-statemeant.git'
-                            url 'http://github.com/manosbatsis/corda-statemeant/tree/master'
+                            connection 'scm:git:git://github.com/manosbatsis/corda-restate.git'
+                            developerConnection 'scm:git:ssh://github.com/manosbatsis/corda-restate.git'
+                            url 'http://github.com/manosbatsis/corda-restate/tree/master'
                         }
                         licenses {
                             license {
