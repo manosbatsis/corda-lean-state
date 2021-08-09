@@ -105,6 +105,10 @@ abstract class BaseStateMembersStrategy(
         return Pair(propertyName, propertyType)
     }
 
+    override fun processFields(typeSpecBuilder: TypeSpec.Builder, fields: List<VariableElement>) {
+        super.processFields(typeSpecBuilder, fields)
+    }
+
     override fun toPropertySpecBuilder(
             fieldIndex: Int, variableElement: VariableElement, propertyName: String, propertyType: TypeName
     ): PropertySpec.Builder = PropertySpec.builder(propertyName, propertyType)

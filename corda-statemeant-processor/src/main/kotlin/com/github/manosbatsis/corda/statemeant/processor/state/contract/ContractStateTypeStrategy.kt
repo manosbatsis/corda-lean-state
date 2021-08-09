@@ -47,6 +47,8 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.TypeSpec.Builder
 import net.corda.core.contracts.BelongsToContract
 import net.corda.core.contracts.Contract
+import net.corda.core.contracts.LinearState
+import net.corda.core.schemas.QueryableState
 import javax.lang.model.element.TypeElement
 
 open class ContractStateTypeStrategy(
@@ -58,9 +60,24 @@ open class ContractStateTypeStrategy(
                 rootDtoStrategy!!.annotatedElementInfo.primaryTargetTypeElement)
     }
 
+    private fun Builder.addMissingSuperInterfaces(
+            targetInterfaces: List<Class<*>>
+    ): Builder {
+        val annotatedTypeElement = annotatedElementInfo.primaryTargetTypeElement
+        targetInterfaces.forEach{
+            if(!annotatedTypeElement.isAssignableTo(it))
+                addSuperinterface(it)
+        }
+        return this
+    }
+
     override fun addSuperTypes(typeSpecBuilder: TypeSpec.Builder) {
         typeSpecBuilder.addSuperinterface(annotatedElementInfo.primaryTargetTypeElement.asKotlinClassName())
-                .addSuperinterface(ParticipantsState::class.java)
+                .addMissingSuperInterfaces(listOf(
+                        ParticipantsState::class.java,
+                        LinearState::class.java,
+                        QueryableState::class.java
+                ))
     }
 
     override fun addAnnotations(typeSpecBuilder: Builder) {

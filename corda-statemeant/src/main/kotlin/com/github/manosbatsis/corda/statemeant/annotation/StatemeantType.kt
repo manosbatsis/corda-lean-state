@@ -72,7 +72,8 @@ annotation class StatemeantType(
          */
         val persistentMappingModes: Array<StatemeantPropertyMappingMode> = [StatemeantPropertyMappingMode.EXPANDED],
         val ignoreProperties: Array<String> = [],
-        val copyAnnotationPackages: Array<String> = []
+        val copyAnnotationPackages: Array<String> = [],
+        val contractStateSuperInterface: KClass<out ContractState> = ContractState::class
 )
 
 /**

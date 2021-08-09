@@ -38,15 +38,15 @@
  */
 package com.github.manosbatsis.corda.statemeant.processor.state.persistent
 
+import com.github.manosbatsis.corda.statemeant.processor.state.BaseStateStrategy
 import com.github.manosbatsis.corda.statemeant.processor.state.contract.ContractStateNameStrategy
 import com.github.manosbatsis.kotlin.utils.kapt.processor.AnnotatedElementInfo
-import com.github.manosbatsis.vaultaire.processor.dto.BaseVaultaireDtoStrategy
 import com.squareup.kotlinpoet.FileSpec
 
 /** Default overrides for building a ContractState from a spec interface */
-open class PersistentStateStrategy(
+class PersistentStateStrategy(
         annotatedElementInfo: AnnotatedElementInfo
-) : BaseVaultaireDtoStrategy<PersistentStateNameStrategy, PersistentStateTypeStrategy, PersistentStateMembersStrategy>(
+) : BaseStateStrategy<PersistentStateNameStrategy, PersistentStateTypeStrategy, PersistentStateMembersStrategy>(
         annotatedElementInfo = annotatedElementInfo,
         dtoNameStrategyConstructor = ::PersistentStateNameStrategy,
         dtoTypeStrategyConstructor = ::PersistentStateTypeStrategy,
@@ -56,6 +56,7 @@ open class PersistentStateStrategy(
     companion object {
         const val STRATEGY_KEY = PersistentStateNameStrategy.STRATEGY_KEY
     }
+
 
     override fun with(annotatedElementInfo: AnnotatedElementInfo): PersistentStateStrategy {
         return PersistentStateStrategy(annotatedElementInfo)

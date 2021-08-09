@@ -38,13 +38,13 @@
  */
 package com.github.manosbatsis.corda.statemeant.processor.state.contract
 
+import com.github.manosbatsis.corda.statemeant.processor.state.BaseStateStrategy
 import com.github.manosbatsis.kotlin.utils.kapt.processor.AnnotatedElementInfo
-import com.github.manosbatsis.vaultaire.processor.dto.BaseVaultaireDtoStrategy
 
 /** Default overrides for building a ContractState from a spec interface */
-open class ContractStateStrategy(
+class ContractStateStrategy(
         annotatedElementInfo: AnnotatedElementInfo
-) : BaseVaultaireDtoStrategy<ContractStateNameStrategy, ContractStateTypeStrategy, ContractStateMembersStrategy>(
+) : BaseStateStrategy<ContractStateNameStrategy, ContractStateTypeStrategy, ContractStateMembersStrategy>(
         annotatedElementInfo = annotatedElementInfo,
         dtoNameStrategyConstructor = ::ContractStateNameStrategy,
         dtoTypeStrategyConstructor = ::ContractStateTypeStrategy,

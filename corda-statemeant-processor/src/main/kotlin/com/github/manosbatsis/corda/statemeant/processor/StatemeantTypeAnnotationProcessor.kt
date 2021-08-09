@@ -108,9 +108,8 @@ class StatemeantTypeAnnotationProcessor : AbstractAnnotatedModelInfoProcessor(
     private fun getDtoStrategies(annotatedElementInfo: AnnotatedElementInfo): Map<String, ConstructorRefsCompositeDtoStrategy<*, *, *>> {
         return listOfNotNull(
                 ContractStateStrategy.STRATEGY_KEY to ContractStateStrategy(annotatedElementInfo),
-                if(annotatedElementInfo.primaryTargetTypeElement.isAssignableTo(QueryableState::class.java))
-                    PersistentStateStrategy.STRATEGY_KEY to PersistentStateStrategy(annotatedElementInfo)
-                else null).toMap()
+                PersistentStateStrategy.STRATEGY_KEY to PersistentStateStrategy(annotatedElementInfo)
+        ).toMap()
     }
 
 }
