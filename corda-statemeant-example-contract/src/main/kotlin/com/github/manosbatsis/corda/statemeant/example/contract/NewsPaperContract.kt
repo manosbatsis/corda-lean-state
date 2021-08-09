@@ -43,8 +43,10 @@ class NewsPaperContract : Contract {
     interface Commands : CommandData {
         /** Create the initial state */
         class Create : TypeOnlyCommandData(), Commands
+
         /** Create the updated state */
         class Update : TypeOnlyCommandData(), Commands
+
         /** Delete the state */
         class Delete : TypeOnlyCommandData(), Commands
     }
@@ -57,7 +59,7 @@ class NewsPaperContract : Contract {
                 StatemeantPropertyMappingMode.EXPANDED
             ]
     )
-    interface NewsPaper: LinearState, QueryableState {
+    interface NewsPaper : LinearState, QueryableState {
         val publisher: Party?
         val author: Party
         val price: BigDecimal
