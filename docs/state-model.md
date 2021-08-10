@@ -1,4 +1,4 @@
-# State Mapping
+# State Model
 
 ## Sample State
 

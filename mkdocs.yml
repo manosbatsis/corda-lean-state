@@ -44,7 +44,7 @@ markdown_extensions:
 nav:
   - 'Overview': index.md
   - 'Installation': installation.md
-  - 'State Mapping': state-mapping.md
-  - 'Complete Example': complete-example.md
+  - 'State Mapping': state-model.md.md
+  - 'Full Example': full-example.md
   - 'FAQ': faq.md
   - 'Change Log': changelog.md
