@@ -2,7 +2,7 @@
 
 ## Sample State
 
-Let's use a sample state definition to explo:
+Let's start with a simple state model:
 
 ```kotlin
 /** Our contract class */
@@ -25,7 +25,6 @@ to specify the contract type target for the generated `ContractState`. If `NewsP
 file, we would specify the contract using `RestateModel.contractClass`:
 
 
-
 ```kotlin
 /** Standalone state definition */
 @RestateModel(contractClass = NewsPaperContract::class)
@@ -35,9 +34,8 @@ interface NewsPaper {
     //...
 }
 ```
+
 or using a classname string with `RestateModel.contractClassName`:
-
-
 
 ```kotlin
 /** Standalone state definition */

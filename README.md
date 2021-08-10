@@ -21,5 +21,5 @@ interface NewsPaper {
 Explicit/custom implementations of `linearId`, `participants`, 
 `generateMappedObject()`, `supportedSchemas()` etc. in the above 
 interface are optional but rarely needed. Check out the [installation](./installation.md), 
-[state model](https://manosbatsis.github.io/corda-restate/state-mapping)and [full example](https://manosbatsis.github.io/corda-restate/full-example) sections 
+[state model](https://manosbatsis.github.io/corda-restate/state-model)and [full example](https://manosbatsis.github.io/corda-restate/full-example) sections 
 for more details.
