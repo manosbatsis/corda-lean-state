@@ -5,7 +5,7 @@
 site_name: Corda Restate
 repo_name: corda-restate
 repo_url: https://github.com/manosbatsis/corda-restate
-site_description: "Generate Corda Contract and Persistent states from a single interface."
+site_description: "Generate Corda Contract and Persistent states from a simplified interface."
 site_author: Manos Batsis
 remote_branch: gh-pages
 google_analytics: ['UA-131279953-1', 'manosbatsis.github.io']

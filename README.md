@@ -1,6 +1,4 @@
-# Corda Restate
-
-> __Note__: This repo contains an early release, i.e. experimental code. 
+# Corda Restate ![Maven Central](https://img.shields.io/maven-central/v/com.github.manosbatsis.corda.restate/restate-contracts.svg)
 
 Are you tired of maintaining consistent Corda Contract to Persistent State mappings?
 Corda Restate will use annotation processing during your cordapp's build 
