@@ -237,7 +237,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../state-mapping/" class="md-nav__link">
+      <a href="../state-model.md.md" class="md-nav__link">
         State Mapping
       </a>
     </li>
@@ -252,8 +252,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../complete-example/" class="md-nav__link">
-        Complete Example
+      <a href="../full-example/" class="md-nav__link">
+        Full Example
       </a>
     </li>
   
@@ -300,15 +300,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#license-can-i-use-vaultaire-with-my-project" class="md-nav__link">
-    License: Can I use Vaultaire with my project?
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#use-with-corda-enterprise" class="md-nav__link">
-    Use with Corda Enterprise
+  <a href="#license-can-i-use-restate-with-my-project" class="md-nav__link">
+    License: Can I use Restate with my project?
   </a>
   
 </li>
@@ -362,15 +355,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#license-can-i-use-vaultaire-with-my-project" class="md-nav__link">
-    License: Can I use Vaultaire with my project?
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#use-with-corda-enterprise" class="md-nav__link">
-    Use with Corda Enterprise
+  <a href="#license-can-i-use-restate-with-my-project" class="md-nav__link">
+    License: Can I use Restate with my project?
   </a>
   
 </li>
@@ -394,40 +380,10 @@
                 
                 <h1 id="frequently-asked-questions">Frequently Asked Questions<a class="headerlink" href="#frequently-asked-questions" title="Permanent link">&para;</a></h1>
 <p>Answers to common questions.</p>
-<h2 id="license-can-i-use-vaultaire-with-my-project">License: Can I use Vaultaire with my project?<a class="headerlink" href="#license-can-i-use-vaultaire-with-my-project" title="Permanent link">&para;</a></h2>
-<p>Yes, Vaultaire can be used as a library/dependency with no side-effect to your project.
-Vaultaire is distributed under the GNU <strong>Lesser</strong> General Public License or LGPL, 
+<h2 id="license-can-i-use-restate-with-my-project">License: Can I use Restate with my project?<a class="headerlink" href="#license-can-i-use-restate-with-my-project" title="Permanent link">&para;</a></h2>
+<p>Yes, Restate can be used as a library/dependency with no side-effect to your project.
+The project is distributed under the GNU <strong>Lesser</strong> General Public License or LGPL, 
 the same license adopted by Corda dependencies like Hibernate. </p>
-<h2 id="use-with-corda-enterprise">Use with Corda Enterprise<a class="headerlink" href="#use-with-corda-enterprise" title="Permanent link">&para;</a></h2>
-<p>To use Vaultaire with Corda Enterprise, you will have to update your build to 
-<a href="(https://docs.corda.r3.com/app-upgrade-notes-enterprise.html#re-compiling-for-release)">use the CE release</a>.</p>
-<p>After switching to the appropriate <code>corda_release_group</code> and <code>corda_release_version</code> in your <code>ext</code> section, you can 
-instruct your build to substitute <em>transitive</em> Corda OS dependencies with their CE equivalents: </p>
-<div class="highlight"><pre><span></span><code><span class="n">allprojects</span> <span class="o">{</span>
-    <span class="c1">//...</span>
-    <span class="n">configurations</span> <span class="o">{</span>
-        <span class="n">all</span> <span class="o">{</span>
-            <span class="c1">//...</span>
-            <span class="n">resolutionStrategy</span> <span class="o">{</span>
-                <span class="c1">// ...</span>
-                <span class="n">eachDependency</span> <span class="o">{</span> <span class="n">DependencyResolveDetails</span> <span class="n">details</span> <span class="o">-&gt;</span>
-                    <span class="c1">// Exclude from substitutions as appropriate, e.g.</span>
-                    <span class="kt">def</span> <span class="n">exclusions</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;corda-finance-contracts&#39;</span><span class="o">]</span>
-                    <span class="c1">// Substitute the rest, assumes `ext.corda_release_group` and `ext.corda_release_version` are set</span>
-                    <span class="k">if</span> <span class="o">(</span><span class="n">details</span><span class="o">.</span><span class="na">requested</span><span class="o">.</span><span class="na">group</span> <span class="o">==</span>  <span class="s2">&quot;net.corda&quot;</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">exclusions</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">details</span><span class="o">.</span><span class="na">requested</span><span class="o">.</span><span class="na">name</span><span class="o">))</span> <span class="o">{</span>
-                        <span class="c1">// Force Corda Enterprise</span>
-                        <span class="n">details</span><span class="o">.</span><span class="na">useTarget</span>  <span class="nl">group:</span>  <span class="n">corda_release_group</span><span class="o">,</span> <span class="nl">name:</span> <span class="n">details</span><span class="o">.</span><span class="na">requested</span><span class="o">.</span><span class="na">name</span><span class="o">,</span> <span class="nl">version:</span> <span class="n">corda_release_version</span>
-                    <span class="o">}</span>
-                <span class="o">}</span>
-            <span class="o">}</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div>
-<blockquote>
-<p><strong>Note</strong>: The above assumes <code>ext.corda_release_group</code> and <code>ext.corda_release_version</code> are already set, e.g. to 
-<code>com.r3.corda</code> and <code>4.x</code> respectively.</p>
-</blockquote>
                 
               
               
@@ -446,7 +402,7 @@ instruct your build to substitute <em>transitive</em> Corda OS dependencies with
   
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
-        <a href="../complete-example/" class="md-footer__link md-footer__link--prev" rel="prev">
+        <a href="../full-example/" class="md-footer__link md-footer__link--prev" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -455,7 +411,7 @@ instruct your build to substitute <em>transitive</em> Corda OS dependencies with
               <span class="md-footer__direction">
                 Previous
               </span>
-              Complete Example
+              Full Example
             </div>
           </div>
         </a>
