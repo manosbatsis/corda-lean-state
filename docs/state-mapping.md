@@ -9,7 +9,7 @@ Let's use a sample state definition to explo:
 class NewsPaperContract: Contract {
     
     /** State definition */
-    @RestateType
+    @RestateModel
     interface NewsPaper {
         val publisher: Party?
         val author: Party
@@ -22,26 +22,26 @@ class NewsPaperContract: Contract {
 
 In the above example the `NewsPaper` type is contained in a Corda `Contract` so there is no need 
 to specify the contract type target for the generated `ContractState`. If `NewsPaper` was in a standalone 
-file, we would specify the contract using `RestateType.contractClass`:
+file, we would specify the contract using `RestateModel.contractClass`:
 
 
 
 ```kotlin
 /** Standalone state definition */
-@RestateType(contractClass = NewsPaperContract::class)
+@RestateModel(contractClass = NewsPaperContract::class)
 interface NewsPaper {
     val publisher: Party?
     val author: Party
     //...
 }
 ```
-or using a classname string with `RestateType.contractClassName`:
+or using a classname string with `RestateModel.contractClassName`:
 
 
 
 ```kotlin
 /** Standalone state definition */
-@RestateType(contractClassName = "my.package.NewsPaperContract")
+@RestateModel(contractClassName = "my.package.NewsPaperContract")
 interface NewsPaper {
     val publisher: Party?
     val author: Party
@@ -56,7 +56,7 @@ do it in your interface. The annotation processor will honor them by not generat
 
 ```kotlin
 /** State definition */
-@RestateType
+@RestateModel
 interface NewsPaper: LinearState {
     val publisher: Party?
     val author: Party
@@ -79,7 +79,7 @@ similarly as above, the annotation processor will honor them by not generating i
 
 
 ```kotlin
-@RestateType
+@RestateModel
 interface NewsPaper: QueryableState {
     val publisher: Party?
     val author: Party
@@ -115,7 +115,7 @@ to create the default `participants` implementation:
 
 ## Property Mapping Modes
 
-[RestateType] and [RestateProperty] annotations allow configuration of Contract to Persistent State 
+[RestateModel] and [RestateProperty] annotations allow configuration of Contract to Persistent State 
 property mappings using one or more of the following:
 
 
@@ -126,7 +126,7 @@ property mappings using one or more of the following:
 ```kotlin
 // Tweak mapping modes at type level, 
 // default is [PropertyMappingMode.EXPANDED],
-@RestateType(persistentMappingModes = [
+@RestateModel(mappingModes = [
     PropertyMappingMode.NATIVE,
     PropertyMappingMode.STRINGIFY,
     PropertyMappingMode.EXPANDED]
@@ -134,9 +134,25 @@ property mappings using one or more of the following:
 interface NewsPaper {
     val publisher: Party?
     // Tweak modes at property level
-    @RestateProperty(persistentMappingModes = [
+    @RestateProperty(mappingModes = [
                 PropertyMappingMode.STRINGIFY])
     val author: Party
+    //...
+}
+```
+
+## JPA Overrides
+
+JPA `@Column` annotations found in your model interface will be copied as-is, 
+overriding the annotation processor defaults.
+
+
+```kotlin
+@RestateModel
+interface NewsPaper {
+    // Override JPA Column generation 
+    @get:Column(name = "alt_title", length = 500)
+    val alternativeTitle: String?
     //...
 }
 ```

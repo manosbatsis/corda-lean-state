@@ -22,13 +22,15 @@
 package com.github.manosbatsis.corda.restate.example.contract
 
 import com.github.manosbatsis.corda.restate.annotation.PropertyMappingMode
-import com.github.manosbatsis.corda.restate.annotation.RestateType
+import com.github.manosbatsis.corda.restate.annotation.RestateModel
+import com.github.manosbatsis.corda.restate.annotation.RestateProperty
 import net.corda.core.contracts.*
 import net.corda.core.identity.Party
 import net.corda.core.transactions.LedgerTransaction
 import java.math.BigDecimal
 import java.security.PublicKey
 import java.util.*
+import javax.persistence.Column
 
 // Contract and state.
 val NEWSPAPER_CONTRACT_PACKAGE = NewsPaperContract::class.java.`package`.name
@@ -52,8 +54,8 @@ class NewsPaperContract : Contract {
         class Delete : TypeOnlyCommandData(), Commands
     }
 
-    @RestateType(
-            persistentMappingModes = [
+    @RestateModel(
+            mappingModes = [
                 PropertyMappingMode.NATIVE,
                 PropertyMappingMode.STRINGIFY,
                 PropertyMappingMode.EXPANDED
@@ -63,10 +65,14 @@ class NewsPaperContract : Contract {
         val publisher: Party?
         val author: Party
         val price: BigDecimal
+        @get:RestateProperty(initializer = "1")
         val editions: Int
         val title: String
+        @get:RestateProperty(initializer = "Date()")
         val published: Date
+        @get:Column(name = "alt_title", length = 500)
         val alternativeTitle: String?
+
         // No need to add or override explicitly
         //val linearId: UniqueIdentifier
 

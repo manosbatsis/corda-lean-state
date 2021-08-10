@@ -28,7 +28,6 @@ import com.github.manosbatsis.kotlin.utils.kapt.processor.AbstractAnnotatedModel
 import com.github.manosbatsis.kotlin.utils.kapt.processor.AnnotatedElementInfo
 import com.github.manosbatsis.kotlin.utils.kapt.processor.AnnotationProcessorBase
 import com.squareup.kotlinpoet.asClassName
-import net.corda.core.schemas.QueryableState
 import javax.annotation.processing.SupportedAnnotationTypes
 import javax.annotation.processing.SupportedOptions
 import javax.annotation.processing.SupportedSourceVersion
@@ -38,10 +37,10 @@ import javax.lang.model.SourceVersion
  * Kapt processor for generating (Corda) state-based DTOs.
  */
 @SupportedAnnotationTypes(
-        "com.github.manosbatsis.corda.restate.annotation.RestateType")
+        "com.github.manosbatsis.corda.restate.annotation.RestateModel")
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @SupportedOptions(AnnotationProcessorBase.KAPT_OPTION_NAME_KAPT_KOTLIN_GENERATED)
-class RestateTypeAnnotationProcessor : AbstractAnnotatedModelInfoProcessor(
+class RestateModelAnnotationProcessor : AbstractAnnotatedModelInfoProcessor(
         primaryTargetRefAnnotationName = "baseType",
         secondaryTargetRefAnnotationName = ""
 ) {
@@ -73,8 +72,8 @@ class RestateTypeAnnotationProcessor : AbstractAnnotatedModelInfoProcessor(
                     .addComment("Annotation: ${annElem.annotation.annotationType}\n")
                     .addComment("Source Elements\n")
                     .addComment("   Primary:   ${annElem.primaryTargetTypeElement.asClassName().canonicalName}\n")
-                    .addComment("   Secondary: ${annElem.secondaryTargetTypeElement?.asClassName()?.canonicalName?:"none"}\n")
-                    .addComment("   Mixin:     ${annElem.mixinTypeElement?.asClassName()?.canonicalName?:"none"}\n")
+                    .addComment("   Secondary: ${annElem.secondaryTargetTypeElement?.asClassName()?.canonicalName ?: "none"}\n")
+                    .addComment("   Mixin:     ${annElem.mixinTypeElement?.asClassName()?.canonicalName ?: "none"}\n")
                     .addComment("Generator Strategies\n")
                     .addComment("   Main:    ${strategy.javaClass.simpleName}\n")
                     .addComment("   Name:    ${strategy.dtoNameStrategy.javaClass.canonicalName}\n")

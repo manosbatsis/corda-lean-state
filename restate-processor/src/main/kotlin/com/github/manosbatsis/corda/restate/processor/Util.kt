@@ -21,11 +21,7 @@
 
 package com.github.manosbatsis.corda.restate.processor
 
-import com.github.manosbatsis.kotlin.utils.kapt.processor.AnnotatedElementInfo
 import com.squareup.kotlinpoet.FileSpec
-import net.corda.core.contracts.ContractState
-import net.corda.core.contracts.LinearState
-import javax.lang.model.type.TypeKind
 
 
 fun getFileSpecBuilder(packageName: String, fileName: String) =

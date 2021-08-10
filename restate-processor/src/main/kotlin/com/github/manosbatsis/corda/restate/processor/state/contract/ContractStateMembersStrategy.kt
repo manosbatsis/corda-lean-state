@@ -79,8 +79,8 @@ open class ContractStateMembersStrategy(
         val upperCommaOrEmpty = if (baseMappedProperty.fieldIndex + 1 < fields.size) "," else ""
         val persistentProperties = persistentPropertyMapperCache.toPersistentProperties(baseMappedProperty)
         persistentProperties.forEachIndexed() { propertyIndex, mappedProperty ->
-            val pathSeparator = if(mappedProperty.propertyType.isNullable) "?." else "."
-            val maybeToString = if(mappedProperty.asString) "${pathSeparator}toString()" else ""
+            val pathSeparator = if (mappedProperty.propertyType.isNullable) "?." else "."
+            val maybeToString = if (mappedProperty.asString) "${pathSeparator}toString()" else ""
             val isLast = propertyIndex + 1 == persistentProperties.size
             val commaOrEmpty = if (isLast) upperCommaOrEmpty else ","
             generateMappedObjectFuncCodeBuilder.addStatement(

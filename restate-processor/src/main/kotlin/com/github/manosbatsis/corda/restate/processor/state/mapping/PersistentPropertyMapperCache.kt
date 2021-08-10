@@ -28,13 +28,11 @@ import com.github.manosbatsis.kotlin.utils.ProcessingEnvironmentAware
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.asTypeName
-import net.corda.core.contracts.Contract
 import net.corda.core.contracts.ContractState
 import net.corda.core.schemas.PersistentState
-import javax.lang.model.element.Name
-import javax.lang.model.element.TypeElement
-import javax.lang.model.element.VariableElement
+import javax.lang.model.element.*
 import javax.lang.model.type.TypeMirror
+import kotlin.reflect.KClass
 
 class PersistentPropertyMapperCache(
         val delegate: BaseStateMembersStrategy
@@ -57,7 +55,7 @@ class PersistentPropertyMapperCache(
         mappings = buildInMappers.map { creator ->
             val mapper = creator(delegate)
             mapper.supportedTypes().map { it to mapper }
-        }.flatten().toMap()
+        }.flatten().toMap().toMutableMap()
     }
 
     /** Converts a [ContractState] field to one or more [PersistentState] fields */
@@ -80,10 +78,12 @@ class PersistentPropertyMapperCache(
                     it.annotationType.asTypeElement().asClassName().canonicalName ==
                             RestateProperty::class.java.canonicalName
                 }
-                ?.let {
-                    it.findValueAsKClass("mapper")?.java
-                            ?.getConstructor(BaseStateMembersStrategy::class.java)
-                            ?.newInstance(delegate) as PersistentPropertyMapper<*>
+                ?.findAnnotationValueString("mapper")
+                ?.let { if(it.isNotBlank())
+                    Class.forName(it)
+                            .getConstructor(BaseStateMembersStrategy::class.java)
+                            .newInstance(delegate) as PersistentPropertyMapper<*>?
+                    else null
                 }
                 ?: getMapper(variableElement.asType())
                 ?: getMapper(variableElement.asKotlinTypeName())
@@ -97,7 +97,9 @@ class PersistentPropertyMapperCache(
     }
 
     fun getMapper(typeElement: TypeElement): PersistentPropertyMapper<*>? {
-        return getMapper(typeElement.asClassName())
+        return if (typeElement.kind == ElementKind.ENUM || typeElement.isAssignableTo(Enum::class.java))
+            getMapper(Enum::class.java.canonicalName)
+        else getMapper(typeElement.asClassName())
     }
 
     fun getMapper(name: Name): PersistentPropertyMapper<*>? {

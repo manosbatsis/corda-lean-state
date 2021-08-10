@@ -32,6 +32,7 @@ class IdentityPersistentPropertyMapper(
 ) : BasePersistentPropertyMapper<Party>(delegate) {
 
     override fun supportedTypes() = listOf(
+            Enum::class.java.canonicalName,
             Int::class.java.canonicalName,
             java.lang.Integer::class.java.canonicalName,
             Long::class.java.canonicalName,

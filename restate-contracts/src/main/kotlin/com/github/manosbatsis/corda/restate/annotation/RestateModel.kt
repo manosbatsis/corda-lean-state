@@ -17,34 +17,16 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-
-/*
- * Corda Restate: Generate Corda Contract and Persistent states
- * from a simplified model interface
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301
- * USA
- */
 package com.github.manosbatsis.corda.restate.annotation
 
-import com.github.manosbatsis.corda.restate.annotation.PropertyMappingMode
 import net.corda.core.contracts.BelongsToContract
 import net.corda.core.contracts.Contract
 import net.corda.core.contracts.ContractState
 import net.corda.core.schemas.PersistentState
 import kotlin.reflect.KClass
+import kotlin.reflect.KFunction
+import kotlin.reflect.KFunction0
+import kotlin.reflect.KFunction1
 
 /**
  * Generate [ContractState], [PersistentState] types
@@ -52,7 +34,7 @@ import kotlin.reflect.KClass
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.CLASS)
-annotation class RestateType(
+annotation class RestateModel(
         /**
          * Configures the [BelongsToContract] annotation added to the generated [ContractState].
          * Takes precedence over [contractClassName],using one of the two is required,
@@ -72,28 +54,33 @@ annotation class RestateType(
          * The default is [PropertyMappingMode.EXPANDED]. Can be overridden per property via
          * [RestateProperty] annotations.
          */
-        val persistentMappingModes: Array<PropertyMappingMode> = [PropertyMappingMode.EXPANDED],
+        val mappingModes: Array<PropertyMappingMode> = [PropertyMappingMode.EXPANDED],
         val ignoreProperties: Array<String> = [],
         val copyAnnotationPackages: Array<String> = [],
-        val contractStateSuperInterface: KClass<out ContractState> = ContractState::class
+        val contractStateInterface: KClass<out ContractState> = ContractState::class,
+        val contractStateName: String = "",
+        val persistentStateName: String = ""
 )
 
 /**
- * Generate [ContractState], [PersistentState] types
- * based on the annotated interface.
+ * Property-level equivalent of [RestateModel]
  */
 @Retention(AnnotationRetention.SOURCE)
-@Target(AnnotationTarget.FIELD)
+@Target(AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.FIELD, AnnotationTarget.PROPERTY)
 annotation class RestateProperty(
         /**
          * Apply a custom implementation of
          * `com.github.manosbatsis.vaultaire.processor.state.mapping.PersistentPropertyMapper`
          * to this property.
          */
-        val persistentMapperClassName: String = "",
+        val mapper: String = "",
+
         /**
          * The type-level mode(s) for mapping [ContractState] to [PersistentState] properties.
          * The default is [PropertyMappingMode.EXPANDED].
          */
-        val persistentMappingModes: Array<PropertyMappingMode>
+        val mappingModes: Array<PropertyMappingMode> = [],
+        val initializer: String
 )
+class NONE
+

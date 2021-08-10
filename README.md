@@ -8,7 +8,7 @@ to (re)generate Corda Contract and Persistent States based on a simplified
 interface like `NewsPaper` bellow:
 
 ```kotlin
-@RestateType
+@RestateModel
 interface NewsPaper {
    val publisher: Party?
    val author: Party

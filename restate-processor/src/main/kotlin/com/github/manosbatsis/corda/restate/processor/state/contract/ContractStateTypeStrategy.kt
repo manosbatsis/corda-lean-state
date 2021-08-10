@@ -47,8 +47,8 @@ open class ContractStateTypeStrategy(
             targetInterfaces: List<Class<*>>
     ): Builder {
         val annotatedTypeElement = annotatedElementInfo.primaryTargetTypeElement
-        targetInterfaces.forEach{
-            if(!annotatedTypeElement.isAssignableTo(it))
+        targetInterfaces.forEach {
+            if (!annotatedTypeElement.isAssignableTo(it))
                 addSuperinterface(it)
         }
         return this
@@ -64,13 +64,13 @@ open class ContractStateTypeStrategy(
     }
 
     override fun addAnnotations(typeSpecBuilder: Builder) {
-        val contractType = with(annotatedElementInfo.annotation){
-                    findValueAsTypeElement("contractClass")
-                    ?.let { if(it.qualifiedName.toString() == Contract::class.qualifiedName) null else it }
-                    ?:findAnnotationValueString("contractClassName")
-                            ?.let { if(it.isNotBlank()) processingEnvironment.elementUtils.getTypeElement(it) else null }
+        val contractType = with(annotatedElementInfo.annotation) {
+            findValueAsTypeElement("contractClass")
+                    ?.let { if (it.qualifiedName.toString() == Contract::class.qualifiedName) null else it }
+                    ?: findAnnotationValueString("contractClassName")
+                            ?.let { if (it.isNotBlank()) processingEnvironment.elementUtils.getTypeElement(it) else null }
                     ?: annotatedElementInfo.primaryTargetTypeElement.enclosingElement?.let {
-                        if(it is TypeElement &&  it.isAssignableTo(Contract::class.java)) it else null
+                        if (it is TypeElement && it.isAssignableTo(Contract::class.java)) it else null
                     }
                     ?: error("Could not find a target contract using contractClass or contractClassName of $this")
         }

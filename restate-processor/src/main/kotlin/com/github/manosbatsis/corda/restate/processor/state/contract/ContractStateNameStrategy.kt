@@ -21,26 +21,30 @@
 
 package com.github.manosbatsis.corda.restate.processor.state.contract
 
+import com.github.manosbatsis.corda.restate.annotation.RestateModel
+import com.github.manosbatsis.corda.restate.processor.state.BaseStateNameStrategy
 import com.github.manosbatsis.kotlin.utils.kapt.dto.strategy.composition.DtoStrategyLesserComposition
 import com.github.manosbatsis.kotlin.utils.kapt.dto.strategy.composition.SimpleDtoNameStrategy
 import com.squareup.kotlinpoet.ClassName
 
 open class ContractStateNameStrategy(
         rootDtoStrategy: DtoStrategyLesserComposition
-) : SimpleDtoNameStrategy(rootDtoStrategy) {
+) : BaseStateNameStrategy(rootDtoStrategy) {
 
     companion object {
         const val STRATEGY_KEY = "ContractState"
     }
 
-    override fun getClassName(): ClassName {
-        val mappedPackageName = mapPackageName(annotatedElementInfo.generatedPackageName)
-        var baseName = annotatedElementInfo.primaryTargetTypeElementSimpleName
-                .removeSuffix("StateSpec")
-                .removeSuffix("State")
-                .removeSuffix("Spec")
-        return ClassName(mappedPackageName, "${primaryTargetTypeElement.simpleName}${getClassNameSuffix()}")
-    }
+    override fun getClassName(): ClassName = annotatedElementInfo.primaryTargetTypeElement
+            .getAnnotation(RestateModel::class.java)
+            .contractStateName
+            .let {
+                if (it.isNotBlank())
+                    ClassName(mapPackageName(annotatedElementInfo.generatedPackageName), it)
+                else getClassNameFallback()
+            }
+
+
 
     override fun getClassNameSuffix(): String = STRATEGY_KEY
 

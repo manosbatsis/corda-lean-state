@@ -22,15 +22,17 @@
 package com.github.manosbatsis.corda.restate.annotation
 
 /**
- * Used by [RestateType] and [RestateProperty]
+ * Used by [RestateModel] and [RestateProperty]
  * to apply one or more mapping modes in generated
  * contract > persistent states.
  */
-enum class PropertyMappingMode{
+enum class PropertyMappingMode {
     /** Will generate PersistentState fields using the original ContractState field if possible. */
     NATIVE,
+
     /** Will generate string-based PersistentState field variants where applicable, suffixing their names with "String". */
     STRINGIFY,
+
     /** Will generate PersistentState fields by expanding applicable types to properties corresponding to their individual members. */
     EXPANDED
 }

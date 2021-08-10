@@ -21,17 +21,14 @@
 
 package com.github.manosbatsis.corda.restate.processor.state
 
-import com.github.manosbatsis.corda.restate.annotation.RestateProperty
 import com.github.manosbatsis.corda.restate.annotation.PropertyMappingMode
-import com.github.manosbatsis.corda.restate.annotation.RestateType
+import com.github.manosbatsis.corda.restate.annotation.RestateProperty
+import com.github.manosbatsis.corda.restate.annotation.RestateModel
 import com.github.manosbatsis.corda.restate.processor.state.mapping.PersistentPropertyMapperCache
 import com.github.manosbatsis.kotlin.utils.kapt.dto.strategy.composition.DtoMembersStrategy
 import com.github.manosbatsis.kotlin.utils.kapt.dto.strategy.composition.DtoStrategyLesserComposition
 import com.github.manosbatsis.kotlin.utils.kapt.dto.strategy.composition.SimpleDtoMembersStrategy
-import com.squareup.kotlinpoet.KModifier
-import com.squareup.kotlinpoet.PropertySpec
-import com.squareup.kotlinpoet.TypeName
-import com.squareup.kotlinpoet.TypeSpec
+import com.squareup.kotlinpoet.*
 import javax.lang.model.element.TypeElement
 import javax.lang.model.element.VariableElement
 import javax.lang.model.util.ElementFilter
@@ -49,9 +46,11 @@ abstract class BaseStateMembersStrategy(
     abstract fun addParamAndProperty(typeSpecBuilder: TypeSpec.Builder, mappedProperty: MappedProperty, fields: List<VariableElement>): TypeSpec.Builder
 
     fun getPersistentMappingModes(variableElement: VariableElement): List<PropertyMappingMode> {
-        return variableElement.getAnnotation(RestateProperty::class.java)?.persistentMappingModes?.toList()
-                ?: annotatedElementInfo.primaryTargetTypeElement
-                        .getAnnotation(RestateType::class.java)!!.persistentMappingModes.toList()
+        val propModes = variableElement.getAnnotation(RestateProperty::class.java)
+                ?.mappingModes?.toList()
+        return if(propModes != null && propModes.isNotEmpty()) propModes
+        else annotatedElementInfo.primaryTargetTypeElement
+                        .getAnnotation(RestateModel::class.java)!!.mappingModes.toList()
 
     }
 
@@ -98,6 +97,12 @@ abstract class BaseStateMembersStrategy(
             .mutable(defaultMutable())
             .addModifiers(*toPropertySpecModifiers(variableElement, propertyName, propertyType))
             .initializer(propertyName)
+
+    override fun findDefaultValueAnnotationValue(
+            variableElement: VariableElement
+    ): Pair<String, Boolean>? = variableElement.getAnnotation(RestateProperty::class.java)
+            ?.initializer
+            ?.let { it to toPropertyTypeName(variableElement).isNullable }
 
     abstract fun toPropertySpecModifiers(
             variableElement: VariableElement, propertyName: String, propertyType: TypeName

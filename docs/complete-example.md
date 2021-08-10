@@ -1,15 +1,15 @@
 # Complete Example
 
-## Source Interface
+## Model Interface
 
 ```kotlin
-@RestateType(
+@RestateModel(
         contractClass = NewsPaperContract::class,
-        // Optional, default is [RestatePropertyMappingMode.EXPANDED]
-        persistentMappingModes = [
-            RestatePropertyMappingMode.NATIVE,
-            RestatePropertyMappingMode.STRINGIFY,
-            RestatePropertyMappingMode.EXPANDED
+        // Optional, default is [PropertyMappingMode.EXPANDED]
+        mappingModes = [
+            PropertyMappingMode.NATIVE,
+            PropertyMappingMode.STRINGIFY,
+            PropertyMappingMode.EXPANDED
         ]
 )
 interface NewsPaper {
@@ -18,7 +18,9 @@ interface NewsPaper {
     val price: BigDecimal
     val editions: Int
     val title: String
+    @get:RestateProperty(initializer = "Date()")
     val published: Date
+    @get:Column(name = "alt_title", length = 500)
     val alternativeTitle: String?
 
     // No need to add or override explicitly
@@ -56,7 +58,7 @@ data class NewsPaperContractState(
   override val price: BigDecimal,
   override val editions: Int,
   override val title: String,
-  override val published: Date,
+  override val published: Date = Date(),
   override val alternativeTitle: String? = null
 ) : NewsPaperContract.NewsPaper, ParticipantsState, LinearState, QueryableState {
   override val participants: List<AbstractParty>
@@ -270,7 +272,10 @@ class NewsPaperPersistentState(
   /**
    * Enables query criteria for [NewsPaperContractState.alternativeTitle].
    */
-  @Column(name = "alternative_title")
+  @Column(
+          name = "description",
+          length = 500
+  )
   val alternativeTitle: String? = null
 ) : PersistentState()
 

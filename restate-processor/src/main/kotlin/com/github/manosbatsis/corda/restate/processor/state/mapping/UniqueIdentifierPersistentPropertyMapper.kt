@@ -33,16 +33,14 @@ class UniqueIdentifierPersistentPropertyMapper(
 
     override fun map(original: MappedProperty, modes: List<PropertyMappingMode>): List<MappedProperty> {
         return listOfNotNull(
-                if (modes.contains(PropertyMappingMode.NATIVE))
-                    original
-                else null,
                 if (modes.contains(PropertyMappingMode.STRINGIFY))
                     original.asChildMappedProperty(
                             subPath = listOf("id"),
                             asString = true
                     )
                 else null,
-                if (modes.contains(PropertyMappingMode.EXPANDED))
+                if (modes.contains(PropertyMappingMode.NATIVE)
+                        || modes.contains(PropertyMappingMode.EXPANDED))
                     original.asChildMappedProperty(subPath = listOf("id"))
                 else null,
                 if (modes.contains(PropertyMappingMode.EXPANDED))

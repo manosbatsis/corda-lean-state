@@ -24,32 +24,50 @@ package com.github.manosbatsis.corda.restate.annotation
 import net.corda.core.contracts.ContractState
 import net.corda.core.identity.AbstractParty
 import net.corda.core.identity.AnonymousParty
+import net.corda.core.utilities.loggerFor
 import java.security.PublicKey
+import kotlin.reflect.full.memberProperties
 
 /** Helpers for (generated) implementations of [ContractState.participants]. */
 interface ParticipantsState {
+    companion object {
+        private val logger = loggerFor<ParticipantsState>()
+        private const val partyFieldName = "party"
+        private const val partyGetterName = "getParty"
 
-    fun toAbstractParty(entry: Any?): AbstractParty?{
-        return when (entry) {
-            null -> null
-            is AbstractParty -> entry
-            is PublicKey -> toAbstractParty(entry)
-            else -> {
-                val partyField = entry.javaClass.declaredFields.find { it.name == "party" }
-                if(partyField != null) toAbstractParty(partyField.get(entry))
-                else error("Could not convert input type to participant: ${entry.javaClass.canonicalName}")
-            }
+
+        fun Any.isKotlinType(): Boolean = this::class.java.isKotlinClass()
+
+        fun Class<*>.isKotlinClass(): Boolean =
+                declaredAnnotations.any { it.annotationClass.qualifiedName == "kotlin.Metadata" }
+
+
+        fun Any.getField(fieldName: String): Any? =
+                this::class.memberProperties.find { fieldName == it.name }
+                        ?.getter?.call(this)
+    }
+
+    fun toAbstractParty(entry: Any?): AbstractParty? {
+        return when {
+            entry == null -> null
+            entry is AbstractParty -> entry
+            entry is PublicKey -> toAbstractParty(entry)
+            entry.isKotlinType() -> toAbstractParty(entry.getField("party"))
+            else -> entry.javaClass.declaredMethods
+                    .find { partyGetterName == it.name && it.isAccessible }
+                    ?.let { toAbstractParty(it.invoke(entry)) }
         }
     }
 
     fun toAbstractParty(publicKey: PublicKey) = AnonymousParty(publicKey)
 
     fun toAbstractParties(entries: Collection<*>?): List<AbstractParty> =
-            entries?.mapNotNull{toAbstractParty(it)}
+            entries?.mapNotNull { toAbstractParty(it) }
                     ?: emptyList()
 
     fun toParticipants(vararg entry: Any?): List<AbstractParty> =
             entry.filterNotNull().partition { it is Collection<*> }.run {
-                first.mapNotNull{toAbstractParty(it)} + second.map { toAbstractParties(it as Collection<*>) }.flatten()
+                first.map { toAbstractParties(it as Collection<*>) }.flatten() +
+                        second.mapNotNull { toAbstractParty(it) }
             }
 }

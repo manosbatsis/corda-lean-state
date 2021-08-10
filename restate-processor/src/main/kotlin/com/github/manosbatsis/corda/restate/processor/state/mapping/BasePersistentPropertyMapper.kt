@@ -76,14 +76,14 @@ abstract class BasePersistentPropertyMapper<T>(
                     else propertyType.isNullable
 
                     // Force string if needed
-                    val propType = if(asString)String::class.java.asTypeName().asKotlinTypeName()
+                    val propType = if (asString) String::class.java.asTypeName().asKotlinTypeName()
                     else origPropType
 
                     propType.copy(nullable = nullable)
                 }
         println("asChildMappedProperty, childPropertyType: $childPropertyType")
         return MappedProperty(
-                propertyName = "$childPropertyName${ if(asString) "String" else "" }",
+                propertyName = "$childPropertyName${if (asString) "String" else ""}",
                 propertyPathSegments = propertyPathSegments + subPath,
                 propertyType = childPropertyType,
                 fieldIndex = fieldIndex,

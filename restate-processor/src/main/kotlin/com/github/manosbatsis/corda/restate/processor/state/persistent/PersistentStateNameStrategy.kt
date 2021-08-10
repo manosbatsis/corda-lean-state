@@ -21,26 +21,31 @@
 
 package com.github.manosbatsis.corda.restate.processor.state.persistent
 
+import com.github.manosbatsis.corda.restate.annotation.RestateModel
+import com.github.manosbatsis.corda.restate.processor.state.BaseStateNameStrategy
 import com.github.manosbatsis.kotlin.utils.kapt.dto.strategy.composition.DtoStrategyLesserComposition
-import com.github.manosbatsis.kotlin.utils.kapt.dto.strategy.composition.SimpleDtoNameStrategy
 import com.squareup.kotlinpoet.ClassName
+
+
 
 open class PersistentStateNameStrategy(
         rootDtoStrategy: DtoStrategyLesserComposition
-) : SimpleDtoNameStrategy(rootDtoStrategy) {
+) : BaseStateNameStrategy(rootDtoStrategy) {
 
     companion object {
         const val STRATEGY_KEY = "PersistentState"
     }
 
-    override fun getClassName(): ClassName {
-        val mappedPackageName = mapPackageName(annotatedElementInfo.generatedPackageName)
-        var baseName = annotatedElementInfo.primaryTargetTypeElementSimpleName
-                .removeSuffix("StateSpec")
-                .removeSuffix("State")
-                .removeSuffix("Spec")
-        return ClassName(mappedPackageName, "${primaryTargetTypeElement.simpleName}${getClassNameSuffix()}")
-    }
+    override fun getClassName(): ClassName = annotatedElementInfo.primaryTargetTypeElement
+            .getAnnotation(RestateModel::class.java)
+            .persistentStateName
+            .let {
+                if (it.isNotBlank())
+                    ClassName(mapPackageName(annotatedElementInfo.generatedPackageName), it)
+                else getClassNameFallback()
+            }
+
+
 
     override fun getClassNameSuffix(): String = STRATEGY_KEY
 

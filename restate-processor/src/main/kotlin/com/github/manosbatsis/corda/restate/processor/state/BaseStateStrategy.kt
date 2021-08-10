@@ -21,19 +21,31 @@
 package com.github.manosbatsis.corda.restate.processor.state
 
 import com.github.manosbatsis.kotlin.utils.kapt.dto.DtoInputContext
-import com.github.manosbatsis.kotlin.utils.kapt.dto.strategy.composition.DtoMembersStrategy
-import com.github.manosbatsis.kotlin.utils.kapt.dto.strategy.composition.DtoNameStrategy
-import com.github.manosbatsis.kotlin.utils.kapt.dto.strategy.composition.DtoStrategyLesserComposition
-import com.github.manosbatsis.kotlin.utils.kapt.dto.strategy.composition.DtoTypeStrategy
+import com.github.manosbatsis.kotlin.utils.kapt.dto.strategy.composition.*
 import com.github.manosbatsis.kotlin.utils.kapt.processor.AnnotatedElementInfo
 import com.github.manosbatsis.vaultaire.processor.dto.BaseVaultaireDtoStrategy
+import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.TypeSpec
-import com.squareup.kotlinpoet.asTypeName
 import net.corda.core.contracts.LinearState
 import javax.lang.model.element.VariableElement
 import kotlin.reflect.KFunction1
 
-abstract class BaseStateStrategy<N: DtoNameStrategy, T: DtoTypeStrategy, M: DtoMembersStrategy>(
+
+abstract class BaseStateNameStrategy(
+        rootDtoStrategy: DtoStrategyLesserComposition
+) : SimpleDtoNameStrategy(rootDtoStrategy){
+
+    protected fun getClassNameFallback(): ClassName {
+        val mappedPackageName = mapPackageName(annotatedElementInfo.generatedPackageName)
+        var baseName = annotatedElementInfo.primaryTargetTypeElementSimpleName
+                .removeSuffix("StateSpec")
+                .removeSuffix("State")
+                .removeSuffix("Spec")
+        return ClassName(mappedPackageName, "${primaryTargetTypeElement.simpleName}${getClassNameSuffix()}")
+    }
+}
+
+abstract class BaseStateStrategy<N : DtoNameStrategy, T : DtoTypeStrategy, M : DtoMembersStrategy>(
         annotatedElementInfo: AnnotatedElementInfo,
         dtoNameStrategyConstructor: KFunction1<DtoStrategyLesserComposition, N>,
         dtoTypeStrategyConstructor: KFunction1<DtoStrategyLesserComposition, T>,
@@ -43,7 +55,7 @@ abstract class BaseStateStrategy<N: DtoNameStrategy, T: DtoTypeStrategy, M: DtoM
         dtoNameStrategyConstructor = dtoNameStrategyConstructor,
         dtoTypeStrategyConstructor = dtoTypeStrategyConstructor,
         dtoMembersStrategyConstructor = dtoMembersStrategyConstructor
-){
+) {
     override fun dtoSpec(dtoInputContext: DtoInputContext): TypeSpec {
         checkValidAnnotatedelement(annotatedElementInfo)
         return super.dtoSpec(dtoInputContext)
@@ -53,11 +65,11 @@ abstract class BaseStateStrategy<N: DtoNameStrategy, T: DtoTypeStrategy, M: DtoM
     override fun getFieldsToProcess(): List<VariableElement> {
         val fields = annotatedElementInfo.primaryTargetTypeElementFields.filtered()
         // add linearId if missing
-        return if(annotatedElementInfo.primaryTargetTypeElement.isAssignableTo(LinearState::class.java)
+        return if (annotatedElementInfo.primaryTargetTypeElement.isAssignableTo(LinearState::class.java)
                 || fields.find { it.simpleName.toString() == "linearId" } != null) fields
         else processingEnvironment.elementUtils.getTypeElement(LinearState::class.java.canonicalName)
-                   .accessibleConstructorParameterFields(adaptInterfaceGetters = true)
-                   .filter { it.simpleName.toString() == "linearId" } + fields
+                .accessibleConstructorParameterFields(adaptInterfaceGetters = true)
+                .filter { it.simpleName.toString() == "linearId" } + fields
     }
 
     fun checkValidAnnotatedelement(annotatedElementInfo: AnnotatedElementInfo) {
