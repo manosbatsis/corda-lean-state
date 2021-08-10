@@ -20,8 +20,8 @@ interface NewsPaper {
 
 Naturally you can (optionally!) have your interface extend `LinearState` and/or `QueryableState` 
 if you require custom implementations of `linearId`, `participants`, 
-`generateMappedObject()`, `supportedSchemas()` etc. and the annotation will 
-refrain from generating it's own if you do. This option however is rarely 
+`generateMappedObject()`, `supportedSchemas()` etc. and the annotation processor will 
+refrain from generating its own if you do. This option however is rarely 
 needed as the default generated overrides are configurable 
 in a few ways. 
 
