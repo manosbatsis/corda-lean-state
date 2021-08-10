@@ -349,10 +349,12 @@ you can see bellow:</p>
    <span class="kd">val</span> <span class="nv">alternativeTitle</span><span class="p">:</span> <span class="kt">String?</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Custom implementations of <code>linearId</code>, <code>participants</code>, 
-<code>generateMappedObject()</code>, <code>supportedSchemas()</code> etc. in the above 
-interface are optional but rarely needed: the default generated overrides are 
-pretty decent and configurable. </p>
+<p>Naturally you can (optionally!) have your interface extend <code>LinearState</code> and/or <code>QueryableState</code> 
+if you require custom implementations of <code>linearId</code>, <code>participants</code>, 
+<code>generateMappedObject()</code>, <code>supportedSchemas()</code> etc. and the annotation will 
+refrain from generating it&rsquo;s own if you do. This option however is rarely 
+needed as the default generated overrides are configurable 
+in a few ways. </p>
 <p>Check out the <a href="https://manosbatsis.github.io/corda-lean-state/installation">installation</a>, 
 <a href="https://manosbatsis.github.io/corda-lean-state/state-model">state model</a> 
 and <a href="https://manosbatsis.github.io/corda-lean-state/full-example">full example</a> sections 
