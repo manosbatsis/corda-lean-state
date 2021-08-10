@@ -18,10 +18,12 @@ interface NewsPaper {
 }
 ```
 
-Custom implementations of `linearId`, `participants`, 
-`generateMappedObject()`, `supportedSchemas()` etc. in the above 
-interface are optional but rarely needed: the default generated overrides are 
-pretty decent and configurable. 
+Naturally you can (optionally!) have your interface extend `LinearState` and/or `QueryableState` 
+if you require custom implementations of `linearId`, `participants`, 
+`generateMappedObject()`, `supportedSchemas()` etc. and the annotation will 
+refrain from generating it's own if you do. This option however is rarely 
+needed as the default generated overrides are configurable 
+in a few ways. 
 
 Check out the [installation](https://manosbatsis.github.io/corda-lean-state/installation), 
 [state model](https://manosbatsis.github.io/corda-lean-state/state-model) 

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteRepositoriesConfiguration">
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="Maven Central repository" />
+      <option name="url" value="https://repo1.maven.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="jboss.community" />
+      <option name="name" value="JBoss Community repository" />
+      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="MavenRepo" />
+      <option name="name" value="MavenRepo" />
+      <option name="url" value="https://repo.maven.apache.org/maven2/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven24" />
+      <option name="name" value="maven24" />
+      <option name="url" value="https://ci-artifactory.corda.r3cev.com/artifactory/corda-lib" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="MavenLocal" />
+      <option name="name" value="MavenLocal" />
+      <option name="url" value="file:$MAVEN_REPOSITORY$/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven15" />
+      <option name="name" value="maven15" />
+      <option name="url" value="https://jitpack.io" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven26" />
+      <option name="name" value="maven26" />
+      <option name="url" value="https://dl.bintray.com/juanchosaravia/autodsl" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven8" />
+      <option name="name" value="maven8" />
+      <option name="url" value="https://repo.gradle.org/gradle/libs-releases" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven28" />
+      <option name="name" value="maven28" />
+      <option name="url" value="http://repo.gradle.org/gradle/libs-releases-local" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven20" />
+      <option name="name" value="maven20" />
+      <option name="url" value="https://ci-artifactory.corda.r3cev.com/artifactory/corda" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven23" />
+      <option name="name" value="maven23" />
+      <option name="url" value="https://oss.sonatype.org/content/repositories/snapshots" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven25" />
+      <option name="name" value="maven25" />
+      <option name="url" value="https://ci-artifactory.corda.r3cev.com/artifactory/corda-lib-dev" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="BintrayJCenter" />
+      <option name="name" value="BintrayJCenter" />
+      <option name="url" value="https://jcenter.bintray.com/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven4" />
+      <option name="name" value="maven4" />
+      <option name="url" value="https://software.r3.com/artifactory/corda-dependencies" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven2" />
+      <option name="name" value="maven2" />
+      <option name="url" value="https://software.r3.com/artifactory/corda" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven17" />
+      <option name="name" value="maven17" />
+      <option name="url" value="https://software.r3.com/artifactory/corda-releases" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven5" />
+      <option name="name" value="maven5" />
+      <option name="url" value="https://software.r3.com/artifactory/corda-lib-all" />
+    </remote-repository>
+  </component>
+</project>
