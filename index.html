@@ -334,10 +334,10 @@
                 
                 
                 <h1 id="corda-leanstate">Corda LeanState <a href="https://repo1.maven.org/maven2/com/github/manosbatsis/corda/leanstate/"><img alt="Maven Central" src="https://img.shields.io/maven-central/v/com.github.manosbatsis.corda.leanstate/leanstate-contracts.svg" /></a><a class="headerlink" href="#corda-leanstate" title="Permanent link">&para;</a></h1>
-<p>Are you tired of maintaining consistent Corda Contract to Persistent State mappings?
-Corda LeanState will use annotation processing during your cordapp&rsquo;s build 
-to (re)generate Corda Contract and Persistent States based on a simplified 
-interface like <code>NewsPaper</code> bellow:</p>
+<p>Are you tired of manually maintaining consistent Corda Contract and Persistent State mappings?
+Corda LeanState applies annotation processing to your cordapp&rsquo;s build 
+and (re)generates state types based on a simplified interface like the <code>NewsPaper</code> 
+you can see bellow:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@LeanStateModel</span>
 <span class="kd">interface</span> <span class="nc">NewsPaper</span> <span class="p">{</span>
    <span class="kd">val</span> <span class="nv">publisher</span><span class="p">:</span> <span class="n">Party?</span>
@@ -349,10 +349,13 @@ interface like <code>NewsPaper</code> bellow:</p>
    <span class="kd">val</span> <span class="nv">alternativeTitle</span><span class="p">:</span> <span class="kt">String?</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Explicit/custom implementations of <code>linearId</code>, <code>participants</code>, 
+<p>Custom implementations of <code>linearId</code>, <code>participants</code>, 
 <code>generateMappedObject()</code>, <code>supportedSchemas()</code> etc. in the above 
-interface are optional but rarely needed. Check out the <a href="https://manosbatsis.github.io/corda-lean-state/installation">installation</a>, 
-<a href="https://manosbatsis.github.io/corda-lean-state/state-model">state model</a> and <a href="https://manosbatsis.github.io/corda-lean-state/full-example">full example</a> sections 
+interface are optional but rarely needed: the default generated overrides are 
+pretty decent and configurable. </p>
+<p>Check out the <a href="https://manosbatsis.github.io/corda-lean-state/installation">installation</a>, 
+<a href="https://manosbatsis.github.io/corda-lean-state/state-model">state model</a> 
+and <a href="https://manosbatsis.github.io/corda-lean-state/full-example">full example</a> sections 
 for more details.</p>
                 
               
