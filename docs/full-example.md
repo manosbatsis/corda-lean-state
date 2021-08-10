@@ -5,7 +5,7 @@
 
 
 ```kotlin
-@RestateModel(
+@LeanStateModel(
         contractClass = NewsPaperContract::class,
         // Optional, default is [PropertyMappingMode.EXPANDED]
         mappingModes = [
@@ -20,7 +20,7 @@ interface NewsPaper {
     val price: BigDecimal
     val editions: Int
     val title: String
-    @get:RestateProperty(initializer = "Date()")
+    @get:LeanStateProperty(initializer = "Date()")
     val published: Date
     @get:Column(name = "alt_title", length = 500)
     val alternativeTitle: String?

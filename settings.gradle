@@ -1,4 +1,4 @@
-rootProject.name = 'restate-parent'
-include ':restate-contracts',
-        ':restate-processor',
-        ':restate-example-contract'
+rootProject.name = 'leanstate'
+include ':leanstate-contracts',
+        ':leanstate-processor',
+        ':leanstate-example-contract'

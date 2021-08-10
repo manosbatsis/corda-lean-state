@@ -1,4 +1,4 @@
-Corda Restate: Generate Corda Contract and Persistent states
+Corda LeanState: Generate Corda Contract and Persistent states
 from a simplified model interface.
 
 This library is free software; you can redistribute it and/or

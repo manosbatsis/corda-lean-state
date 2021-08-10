@@ -2,9 +2,9 @@
 # mkdocs serve
 # mkdocs gh-deploy
 
-site_name: Corda Restate
-repo_name: corda-restate
-repo_url: https://github.com/manosbatsis/corda-restate
+site_name: Corda LeanState
+repo_name: corda-leanstate
+repo_url: https://github.com/manosbatsis/corda-leanstate
 site_description: "Generate Corda Contract and Persistent states from a simplified interface."
 site_author: Manos Batsis
 remote_branch: gh-pages

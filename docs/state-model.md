@@ -9,7 +9,7 @@ Let's start with a simple state model:
 class NewsPaperContract: Contract {
     
     /** State definition */
-    @RestateModel
+    @LeanStateModel
     interface NewsPaper {
         val publisher: Party?
         val author: Party
@@ -22,12 +22,12 @@ class NewsPaperContract: Contract {
 
 In the above example the `NewsPaper` type is contained in a Corda `Contract` so there is no need 
 to specify the contract type target for the generated `ContractState`. If `NewsPaper` was in a standalone 
-file, we would specify the contract using `RestateModel.contractClass`:
+file, we would specify the contract using `LeanStateModel.contractClass`:
 
 
 ```kotlin
 /** Standalone state definition */
-@RestateModel(contractClass = NewsPaperContract::class)
+@LeanStateModel(contractClass = NewsPaperContract::class)
 interface NewsPaper {
     val publisher: Party?
     val author: Party
@@ -35,11 +35,11 @@ interface NewsPaper {
 }
 ```
 
-or using a classname string with `RestateModel.contractClassName`:
+or using a classname string with `LeanStateModel.contractClassName`:
 
 ```kotlin
 /** Standalone state definition */
-@RestateModel(contractClassName = "my.package.NewsPaperContract")
+@LeanStateModel(contractClassName = "my.package.NewsPaperContract")
 interface NewsPaper {
     val publisher: Party?
     val author: Party
@@ -54,7 +54,7 @@ do it in your interface. The annotation processor will honor them by not generat
 
 ```kotlin
 /** State definition */
-@RestateModel
+@LeanStateModel
 interface NewsPaper: LinearState {
     val publisher: Party?
     val author: Party
@@ -77,7 +77,7 @@ similarly as above, the annotation processor will honor them by not generating i
 
 
 ```kotlin
-@RestateModel
+@LeanStateModel
 interface NewsPaper: QueryableState {
     val publisher: Party?
     val author: Party
@@ -113,7 +113,7 @@ to create the default `participants` implementation:
 
 ## Property Mapping Modes
 
-[RestateModel] and [RestateProperty] annotations allow configuration of Contract to Persistent State 
+[LeanStateModel] and [LeanStateProperty] annotations allow configuration of Contract to Persistent State 
 property mappings using one or more of the following:
 
 
@@ -124,7 +124,7 @@ property mappings using one or more of the following:
 ```kotlin
 // Tweak mapping modes at type level, 
 // default is [PropertyMappingMode.EXPANDED],
-@RestateModel(mappingModes = [
+@LeanStateModel(mappingModes = [
     PropertyMappingMode.NATIVE,
     PropertyMappingMode.STRINGIFY,
     PropertyMappingMode.EXPANDED]
@@ -132,7 +132,7 @@ property mappings using one or more of the following:
 interface NewsPaper {
     val publisher: Party?
     // Tweak modes at property level
-    @RestateProperty(mappingModes = [
+    @LeanStateProperty(mappingModes = [
                 PropertyMappingMode.STRINGIFY])
     val author: Party
     //...
@@ -146,7 +146,7 @@ overriding the annotation processor defaults.
 
 
 ```kotlin
-@RestateModel
+@LeanStateModel
 interface NewsPaper {
     // Override JPA Column generation 
     @get:Column(name = "alt_title", length = 500)

@@ -8,7 +8,7 @@
 
 set -ex
 
-REPO="https://github.com/manosbatsis/corda-restate.git"
+REPO="https://github.com/manosbatsis/corda-leanstate.git"
 DIR=temp-clone
 
 # Delete any existing temporary website clone
@@ -21,7 +21,7 @@ git clone $REPO $DIR
 cd $DIR
 
 # Generate the API docs
-./gradlew :restate-contracts:dokkaForGhPages
+./gradlew :leanstate-contracts:dokkaForGhPages
 
 # Add readme as index
 cat README.md > docs/index.md
