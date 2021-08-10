@@ -211,7 +211,7 @@ configure([project(':leanstate-contracts'),
         outputDirectory = javadoc.destinationDir
         linkMapping {
             dir = "src/main/kotlin"
-            url = "https://github.com/manosbatsis/corda-leanstate/tree/master/${project.name}/src/main/kotlin/"
+            url = "https://github.com/manosbatsis/corda-lean-state/tree/master/${project.name}/src/main/kotlin/"
             suffix = "#L"
         }
     }
@@ -259,11 +259,11 @@ configure([project(':leanstate-contracts'),
                         name project.name
                         packaging project.name == rootProject.name ? 'pom' : 'jar'
                         description 'Corda LeanState: Generate Corda contract and persistent states from a simplified interface'
-                        url 'https://manosbatsis.github.io/corda-leanstate/'
+                        url 'https://manosbatsis.github.io/corda-lean-state/'
                         scm {
-                            connection 'scm:git:git://github.com/manosbatsis/corda-leanstate.git'
-                            developerConnection 'scm:git:ssh://github.com/manosbatsis/corda-leanstate.git'
-                            url 'http://github.com/manosbatsis/corda-leanstate/tree/master'
+                            connection 'scm:git:git://github.com/manosbatsis/corda-lean-state.git'
+                            developerConnection 'scm:git:ssh://github.com/manosbatsis/corda-lean-state.git'
+                            url 'http://github.com/manosbatsis/corda-lean-state/tree/master'
                         }
                         licenses {
                             license {

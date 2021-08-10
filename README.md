@@ -1,4 +1,4 @@
-# Corda LeanState ![Maven Central](https://img.shields.io/maven-central/v/com.github.manosbatsis.corda.leanstate/leanstate-contracts.svg)
+# Corda LeanState [![Maven Central](https://img.shields.io/maven-central/v/com.github.manosbatsis.corda.leanstate/leanstate-contracts.svg)](https://repo1.maven.org/maven2/com/github/manosbatsis/corda/leanstate/)
 
 Are you tired of maintaining consistent Corda Contract to Persistent State mappings?
 Corda LeanState will use annotation processing during your cordapp's build 
@@ -20,6 +20,6 @@ interface NewsPaper {
 
 Explicit/custom implementations of `linearId`, `participants`, 
 `generateMappedObject()`, `supportedSchemas()` etc. in the above 
-interface are optional but rarely needed. Check out the [installation](https://manosbatsis.github.io/corda-leanstate/installation), 
-[state model](https://manosbatsis.github.io/corda-leanstate/state-model) and [full example](https://manosbatsis.github.io/corda-leanstate/full-example) sections 
+interface are optional but rarely needed. Check out the [installation](https://manosbatsis.github.io/corda-lean-state/installation), 
+[state model](https://manosbatsis.github.io/corda-lean-state/state-model) and [full example](https://manosbatsis.github.io/corda-lean-state/full-example) sections 
 for more details.

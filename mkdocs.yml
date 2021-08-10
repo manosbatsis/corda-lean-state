@@ -3,8 +3,8 @@
 # mkdocs gh-deploy
 
 site_name: Corda LeanState
-repo_name: corda-leanstate
-repo_url: https://github.com/manosbatsis/corda-leanstate
+repo_name: corda-lean-state
+repo_url: https://github.com/manosbatsis/corda-lean-state
 site_description: "Generate Corda Contract and Persistent states from a simplified interface."
 site_author: Manos Batsis
 remote_branch: gh-pages
