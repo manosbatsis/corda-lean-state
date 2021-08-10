@@ -1,4 +1,4 @@
 $dokka.format:gfm
 $dokka.linkExtension:md
 
-com.github.manosbatsis.corda.restate.annotation
+com.github.manosbatsis.corda.leanstate.annotation
