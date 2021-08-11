@@ -15,9 +15,12 @@ interface NewsPaper {
 You can (optionally!) extend Corda's standard interfaces and, 
 if you really need to, add custom overrides (e.g.  for `supportedSchemas()`). 
 The processor will behave accordingly and refrain from generating its own  if you do.  
-The need to should be rare as generation of state sources is configurable in a few ways. 
+The need to should be rare as generation of state sources is configurable in a few ways,
+checkout the [state model](https://manosbatsis.github.io/corda-lean-state/state-model) 
+and a [full example](https://manosbatsis.github.io/corda-lean-state/full-example) 
+for details.
 
-Here's what `NewsPaper` above results to using default settings (edited for brevity). 
+Here's what `NewsPaper` above gets us using default settings (edited for brevity). 
 Contract state:
 
 ```kotlin
@@ -53,7 +56,4 @@ class NewsPaperPersistentState(
 
 ```
 
-Check out the [installation](https://manosbatsis.github.io/corda-lean-state/installation), 
-[state model](https://manosbatsis.github.io/corda-lean-state/state-model) 
-and [full example](https://manosbatsis.github.io/corda-lean-state/full-example) sections 
-for more details.
+
