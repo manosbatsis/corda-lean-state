@@ -335,8 +335,8 @@
                 
                 <h1 id="corda-leanstate">Corda LeanState <a href="https://repo1.maven.org/maven2/com/github/manosbatsis/corda/leanstate/"><img alt="Maven Central" src="https://img.shields.io/maven-central/v/com.github.manosbatsis.corda.leanstate/leanstate-contracts.svg" /></a><a class="headerlink" href="#corda-leanstate" title="Permanent link">&para;</a></h1>
 <p>Tired of manual maintenance of Corda <code>ContractState</code> - <code>PersistentState</code> mappings?
-LeanState&rsquo;s annotation processing will (re)generate perfectly synced, consistent 
-state based on a simplified interface like our <code>NewsPaper</code> here:</p>
+LeanState&rsquo;s annotation processing will (re)generate perfectly synced and consistent<br />
+state classes, using a simplified interface like <code>NewsPaper</code> bellow as input:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@LeanStateModel</span>
 <span class="kd">interface</span> <span class="nc">NewsPaper</span> <span class="p">{</span>
    <span class="kd">val</span> <span class="nv">publisher</span><span class="p">:</span> <span class="n">Party?</span>
@@ -350,7 +350,7 @@ The need to should be rare as generation of state sources is configurable in a f
 checkout the <a href="https://manosbatsis.github.io/corda-lean-state/state-model">state model</a> 
 and a <a href="https://manosbatsis.github.io/corda-lean-state/full-example">full example</a> 
 for details.</p>
-<p>Here&rsquo;s what <code>NewsPaper</code> above gets us using default settings (edited for brevity). 
+<p>Here&rsquo;s what <code>NewsPaper</code> above gets us with default settings (edited for brevity). 
 Contract state:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@BelongsToContract</span><span class="p">(</span><span class="n">value</span> <span class="o">=</span> <span class="n">NewsPaperContract</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
 <span class="kd">data</span> <span class="kd">class</span> <span class="nc">NewsPaperContractState</span><span class="p">(</span>
