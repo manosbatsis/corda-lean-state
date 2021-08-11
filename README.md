@@ -1,8 +1,8 @@
 # Corda LeanState [![Maven Central](https://img.shields.io/maven-central/v/com.github.manosbatsis.corda.leanstate/leanstate-contracts.svg)](https://repo1.maven.org/maven2/com/github/manosbatsis/corda/leanstate/)
 
 Tired of manual maintenance of Corda `ContractState` - `PersistentState` mappings?
-LeanState's annotation processing will (re)generate perfectly synced, consistent 
-state based on a simplified interface like our `NewsPaper` here:
+LeanState's annotation processing will (re)generate perfectly synced and consistent  
+state classes, using a simplified interface like `NewsPaper` bellow as input:
 
 ```kotlin
 @LeanStateModel
@@ -20,7 +20,7 @@ checkout the [state model](https://manosbatsis.github.io/corda-lean-state/state-
 and a [full example](https://manosbatsis.github.io/corda-lean-state/full-example) 
 for details.
 
-Here's what `NewsPaper` above gets us using default settings (edited for brevity). 
+Here's what `NewsPaper` above gets us with default settings (edited for brevity). 
 Contract state:
 
 ```kotlin
