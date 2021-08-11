@@ -2,7 +2,7 @@
 
 Tired of manual maintenance of Corda `ContractState` - `PersistentState` mappings?
 LeanState's annotation processing will (re)generate perfectly synced, consistent 
-state based on a simplified interface like this and default settings:
+state based on a simplified interface like our `NewsPaper` here:
 
 ```kotlin
 @LeanStateModel
@@ -12,13 +12,12 @@ interface NewsPaper {
 }
 ```
 
-You can (optionally!) extend standard state interfaces and, 
-if you really need to, add your custom overrides e.g.  for `supportedSchemas()` 
-and the processor will behave accordingly if you do.  
-That should be rare though as LeanState is configurable 
-in a few ways. 
+You can (optionally!) extend Corda's standard interfaces and, 
+if you really need to, add custom overrides (e.g.  for `supportedSchemas()`). 
+The processor will behave accordingly and refrain from generating its own  if you do.  
+The need to should be rare as generation of state sources is configurable in a few ways. 
 
-Here's what `NewsPaper` results to (edited for brevity) using default settings. 
+Here's what `NewsPaper` above results to using default settings (edited for brevity). 
 Contract state:
 
 ```kotlin
@@ -37,7 +36,7 @@ data class NewsPaperContractState(
 }
 ```
 
-And persistent state:
+Persistent state:
 
 ```kotlin
 @Entity @Table(name = "news_paper")
