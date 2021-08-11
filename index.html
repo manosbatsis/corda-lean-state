@@ -346,8 +346,11 @@ state based on a simplified interface like our <code>NewsPaper</code> here:</p>
 <p>You can (optionally!) extend Corda&rsquo;s standard interfaces and, 
 if you really need to, add custom overrides (e.g.  for <code>supportedSchemas()</code>). 
 The processor will behave accordingly and refrain from generating its own  if you do.<br />
-The need to should be rare as generation of state sources is configurable in a few ways. </p>
-<p>Here&rsquo;s what <code>NewsPaper</code> above results to using default settings (edited for brevity). 
+The need to should be rare as generation of state sources is configurable in a few ways,
+checkout the <a href="https://manosbatsis.github.io/corda-lean-state/state-model">state model</a> 
+and a <a href="https://manosbatsis.github.io/corda-lean-state/full-example">full example</a> 
+for details.</p>
+<p>Here&rsquo;s what <code>NewsPaper</code> above gets us using default settings (edited for brevity). 
 Contract state:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@BelongsToContract</span><span class="p">(</span><span class="n">value</span> <span class="o">=</span> <span class="n">NewsPaperContract</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
 <span class="kd">data</span> <span class="kd">class</span> <span class="nc">NewsPaperContractState</span><span class="p">(</span>
@@ -376,10 +379,6 @@ Contract state:</p>
   <span class="nd">@Column</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;publisher_name_country&quot;</span><span class="p">)</span> <span class="kd">val</span> <span class="nv">publisherNameCountry</span><span class="p">:</span> <span class="kt">String?</span><span class="p">,</span>
 <span class="p">)</span> <span class="p">:</span> <span class="n">PersistentState</span><span class="p">()</span>
 </code></pre></div>
-<p>Check out the <a href="https://manosbatsis.github.io/corda-lean-state/installation">installation</a>, 
-<a href="https://manosbatsis.github.io/corda-lean-state/state-model">state model</a> 
-and <a href="https://manosbatsis.github.io/corda-lean-state/full-example">full example</a> sections 
-for more details.</p>
                 
               
               
