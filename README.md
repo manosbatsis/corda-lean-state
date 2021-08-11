@@ -1,29 +1,58 @@
 # Corda LeanState [![Maven Central](https://img.shields.io/maven-central/v/com.github.manosbatsis.corda.leanstate/leanstate-contracts.svg)](https://repo1.maven.org/maven2/com/github/manosbatsis/corda/leanstate/)
 
-Are you tired of manually maintaining consistent Corda Contract and Persistent State mappings?
-Corda LeanState applies annotation processing to your cordapp's build 
-and (re)generates state types based on a simplified interface like the `NewsPaper` 
-you can see bellow:
+Tired of manual maintenance of Corda `ContractState` - `PersistentState` mappings?
+LeanState's annotation processing will (re)generate perfectly synced, consistent 
+state based on a simplified interface like this and default settings:
 
 ```kotlin
 @LeanStateModel
 interface NewsPaper {
    val publisher: Party?
-   val author: Party
-   val price: BigDecimal
-   val editions: Int
-   val title: String
-   val published: Date
-   val alternativeTitle: String?
+   //...
 }
 ```
 
-Naturally you can (optionally!) have your interface extend `LinearState` and/or `QueryableState` 
-if you require custom implementations of `linearId`, `participants`, 
-`generateMappedObject()`, `supportedSchemas()` etc. and the annotation processor will 
-refrain from generating its own if you do. This option however is rarely 
-needed as the default generated overrides are configurable 
+You can (optionally!) extend standard state interfaces and, 
+if you really need to, add your custom overrides e.g.  for `supportedSchemas()` 
+and the processor will behave accordingly if you do.  
+That should be rare though as LeanState is configurable 
 in a few ways. 
+
+Here's what `NewsPaper` results to (edited for brevity) using default settings. 
+Contract state:
+
+```kotlin
+@BelongsToContract(value = NewsPaperContract::class)
+data class NewsPaperContractState(
+        override val linearId: UniqueIdentifier = UniqueIdentifier(),
+        override val publisher: Party? = null,
+        //...
+) : NewsPaperContract.NewsPaper, ParticipantsState, LinearState, QueryableState {
+    override val participants: List<AbstractParty> = //...
+    override fun generateMappedObject(schema: MappedSchema): NewsPaperPersistentState = //...
+    override fun supportedSchemas(): Iterable<MappedSchema> = listOf(SchemaV1)
+    object Schema
+    object SchemaV1 : MappedSchema(Schema::class.java, 1,
+            listOf(NewsPaperPersistentState::class.java))
+}
+```
+
+And persistent state:
+
+```kotlin
+@Entity @Table(name = "news_paper")
+class NewsPaperPersistentState(
+  @Column(name = "linear_id_id",nullable = false) val linearIdId: UUID,
+  @Column(name = "linear_id_external_id") val linearIdExternalId: String? = null,
+  @Column(name = "publisher_name_common_name") val publisherNameCommonName: String? = null,
+  @Column(name = "publisher_name_organisation_unit") val publisherNameOrganisationUnit: String? = null,
+  @Column(name = "publisher_name_organisation") val publisherNameOrganisation: String?,
+  @Column(name = "publisher_name_locality") val publisherNameLocality: String?,
+  @Column(name = "publisher_name_state") val publisherNameState: String? = null,
+  @Column(name = "publisher_name_country") val publisherNameCountry: String?,
+) : PersistentState()
+
+```
 
 Check out the [installation](https://manosbatsis.github.io/corda-lean-state/installation), 
 [state model](https://manosbatsis.github.io/corda-lean-state/state-model) 
