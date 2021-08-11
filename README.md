@@ -1,8 +1,8 @@
 # Corda LeanState [![Maven Central](https://img.shields.io/maven-central/v/com.github.manosbatsis.corda.leanstate/leanstate-contracts.svg)](https://repo1.maven.org/maven2/com/github/manosbatsis/corda/leanstate/)
 
-Tired of manual maintenance of Corda `ContractState` - `PersistentState` mappings?
-LeanState's annotation processing will (re)generate perfectly synced and consistent  
-state classes, using a simplified interface like `NewsPaper` bellow as input:
+Tired of manual maintenance of `ContractState` and `PersistentState` mappings?
+LeanState (re)generates perfectly synced and consistent state classes at build-time, 
+based on model interfaces like `NewsPaper` bellow as input:
 
 ```kotlin
 @LeanStateModel
@@ -12,13 +12,13 @@ interface NewsPaper {
 }
 ```
 
-You can (optionally!) extend Corda's standard interfaces and, 
-if you really need to, add custom overrides (e.g.  for `supportedSchemas()`). 
-The processor will behave accordingly and refrain from generating its own  if you do.  
-The need to should be rare as generation of state sources is configurable in a few ways,
-checkout the [state model](https://manosbatsis.github.io/corda-lean-state/state-model) 
-and a [full example](https://manosbatsis.github.io/corda-lean-state/full-example) 
-for details.
+You can (optionally!) extend Corda's standard interfaces if you really need  
+custom overrides VS those added by the processor (e.g.  for `supportedSchemas()`). 
+The processor will refrain from generating its own  if you do.  
+Such a requirement should be rare as generation is configurable in a few ways, 
+see [state model](https://manosbatsis.github.io/corda-lean-state/state-model)  
+and [full example](https://manosbatsis.github.io/corda-lean-state/full-example) 
+sections for details.
 
 Here's what `NewsPaper` above gets us with default settings (edited for brevity). 
 Contract state:
@@ -52,6 +52,7 @@ class NewsPaperPersistentState(
   @Column(name = "publisher_name_locality") val publisherNameLocality: String?,
   @Column(name = "publisher_name_state") val publisherNameState: String? = null,
   @Column(name = "publisher_name_country") val publisherNameCountry: String?,
+  //...
 ) : PersistentState()
 
 ```
