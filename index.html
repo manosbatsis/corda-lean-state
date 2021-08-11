@@ -334,27 +334,49 @@
                 
                 
                 <h1 id="corda-leanstate">Corda LeanState <a href="https://repo1.maven.org/maven2/com/github/manosbatsis/corda/leanstate/"><img alt="Maven Central" src="https://img.shields.io/maven-central/v/com.github.manosbatsis.corda.leanstate/leanstate-contracts.svg" /></a><a class="headerlink" href="#corda-leanstate" title="Permanent link">&para;</a></h1>
-<p>Are you tired of manually maintaining consistent Corda Contract and Persistent State mappings?
-Corda LeanState applies annotation processing to your cordapp&rsquo;s build 
-and (re)generates state types based on a simplified interface like the <code>NewsPaper</code> 
-you can see bellow:</p>
+<p>Tired of manual maintenance of Corda <code>ContractState</code> - <code>PersistentState</code> mappings?
+LeanState&rsquo;s annotation processing will (re)generate perfectly synced, consistent 
+state based on a simplified interface like this and default settings:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@LeanStateModel</span>
 <span class="kd">interface</span> <span class="nc">NewsPaper</span> <span class="p">{</span>
    <span class="kd">val</span> <span class="nv">publisher</span><span class="p">:</span> <span class="n">Party?</span>
-   <span class="kd">val</span> <span class="nv">author</span><span class="p">:</span> <span class="n">Party</span>
-   <span class="kd">val</span> <span class="nv">price</span><span class="p">:</span> <span class="n">BigDecimal</span>
-   <span class="kd">val</span> <span class="nv">editions</span><span class="p">:</span> <span class="kt">Int</span>
-   <span class="kd">val</span> <span class="nv">title</span><span class="p">:</span> <span class="kt">String</span>
-   <span class="kd">val</span> <span class="nv">published</span><span class="p">:</span> <span class="n">Date</span>
-   <span class="kd">val</span> <span class="nv">alternativeTitle</span><span class="p">:</span> <span class="kt">String?</span>
+   <span class="c1">//...</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Naturally you can (optionally!) have your interface extend <code>LinearState</code> and/or <code>QueryableState</code> 
-if you require custom implementations of <code>linearId</code>, <code>participants</code>, 
-<code>generateMappedObject()</code>, <code>supportedSchemas()</code> etc. and the annotation processor will 
-refrain from generating its own if you do. This option however is rarely 
-needed as the default generated overrides are configurable 
+<p>You can (optionally!) extend standard state interfaces and, 
+if you really need to, add your custom overrides e.g.  for <code>supportedSchemas()</code> 
+and the processor will behave accordingly if you do.<br />
+That should be rare though as LeanState is configurable 
 in a few ways. </p>
+<p>Here&rsquo;s what <code>NewsPaper</code> results to (edited for brevity) using default settings. 
+Contract state:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@BelongsToContract</span><span class="p">(</span><span class="n">value</span> <span class="o">=</span> <span class="n">NewsPaperContract</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
+<span class="kd">data</span> <span class="kd">class</span> <span class="nc">NewsPaperContractState</span><span class="p">(</span>
+        <span class="kd">override</span> <span class="kd">val</span> <span class="nv">linearId</span><span class="p">:</span> <span class="n">UniqueIdentifier</span> <span class="o">=</span> <span class="n">UniqueIdentifier</span><span class="p">(),</span>
+        <span class="kd">override</span> <span class="kd">val</span> <span class="nv">publisher</span><span class="p">:</span> <span class="n">Party? </span><span class="o">=</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="c1">//...</span>
+<span class="p">)</span> <span class="p">:</span> <span class="n">NewsPaperContract</span><span class="p">.</span><span class="na">NewsPaper</span><span class="p">,</span> <span class="n">ParticipantsState</span><span class="p">,</span> <span class="n">LinearState</span><span class="p">,</span> <span class="n">QueryableState</span> <span class="p">{</span>
+    <span class="kd">override</span> <span class="kd">val</span> <span class="nv">participants</span><span class="p">:</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">AbstractParty</span><span class="o">&gt;</span> <span class="o">=</span> <span class="c1">//...</span>
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">generateMappedObject</span><span class="p">(</span><span class="n">schema</span><span class="p">:</span> <span class="n">MappedSchema</span><span class="p">):</span> <span class="n">NewsPaperPersistentState</span> <span class="o">=</span> <span class="c1">//...</span>
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">supportedSchemas</span><span class="p">():</span> <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">MappedSchema</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">listOf</span><span class="p">(</span><span class="n">SchemaV1</span><span class="p">)</span>
+    <span class="kd">object</span> <span class="nc">Schema</span>
+    <span class="kd">object</span> <span class="nc">SchemaV1</span> <span class="p">:</span> <span class="n">MappedSchema</span><span class="p">(</span><span class="n">Schema</span><span class="o">::</span><span class="n">class</span><span class="p">.</span><span class="na">java</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span>
+            <span class="n">listOf</span><span class="p">(</span><span class="n">NewsPaperPersistentState</span><span class="o">::</span><span class="n">class</span><span class="p">.</span><span class="na">java</span><span class="p">))</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>And persistent state:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Entity</span> <span class="nd">@Table</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;news_paper&quot;</span><span class="p">)</span>
+<span class="kd">class</span> <span class="nc">NewsPaperPersistentState</span><span class="p">(</span>
+  <span class="nd">@Column</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;linear_id_id&quot;</span><span class="p">,</span><span class="n">nullable</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span> <span class="kd">val</span> <span class="nv">linearIdId</span><span class="p">:</span> <span class="n">UUID</span><span class="p">,</span>
+  <span class="nd">@Column</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;linear_id_external_id&quot;</span><span class="p">)</span> <span class="kd">val</span> <span class="nv">linearIdExternalId</span><span class="p">:</span> <span class="kt">String?</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span>
+  <span class="nd">@Column</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;publisher_name_common_name&quot;</span><span class="p">)</span> <span class="kd">val</span> <span class="nv">publisherNameCommonName</span><span class="p">:</span> <span class="kt">String?</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span>
+  <span class="nd">@Column</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;publisher_name_organisation_unit&quot;</span><span class="p">)</span> <span class="kd">val</span> <span class="nv">publisherNameOrganisationUnit</span><span class="p">:</span> <span class="kt">String?</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span>
+  <span class="nd">@Column</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;publisher_name_organisation&quot;</span><span class="p">)</span> <span class="kd">val</span> <span class="nv">publisherNameOrganisation</span><span class="p">:</span> <span class="kt">String?</span><span class="p">,</span>
+  <span class="nd">@Column</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;publisher_name_locality&quot;</span><span class="p">)</span> <span class="kd">val</span> <span class="nv">publisherNameLocality</span><span class="p">:</span> <span class="kt">String?</span><span class="p">,</span>
+  <span class="nd">@Column</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;publisher_name_state&quot;</span><span class="p">)</span> <span class="kd">val</span> <span class="nv">publisherNameState</span><span class="p">:</span> <span class="kt">String?</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span>
+  <span class="nd">@Column</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;publisher_name_country&quot;</span><span class="p">)</span> <span class="kd">val</span> <span class="nv">publisherNameCountry</span><span class="p">:</span> <span class="kt">String?</span><span class="p">,</span>
+<span class="p">)</span> <span class="p">:</span> <span class="n">PersistentState</span><span class="p">()</span>
+</code></pre></div>
 <p>Check out the <a href="https://manosbatsis.github.io/corda-lean-state/installation">installation</a>, 
 <a href="https://manosbatsis.github.io/corda-lean-state/state-model">state model</a> 
 and <a href="https://manosbatsis.github.io/corda-lean-state/full-example">full example</a> sections 
