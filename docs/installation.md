@@ -10,9 +10,9 @@ apply plugin: 'kotlin-kapt'
 
 dependencies{
     // Core dependency
-    cordaCompile "com.github.manosbatsis.corda.leanstatete:leanstate-contracts:$leanstate_version"
+    cordaCompile "com.github.manosbatsis.corda.leanstate:leanstate-contracts:$leanstate_version"
     // Annotation processing
-    kapt "com.github.manosbatsis.corda.leanstatete:leanstate-processor:$leanstate_version"
+    kapt "com.github.manosbatsis.corda.leanstate:leanstate-processor:$leanstate_version"
 
     // Corda dependencies etc.
     // ...
@@ -28,7 +28,7 @@ Step 2: Add LeanState as a Cordapp to your `deployNodes`/`dockerNodes` task:
 ```groovy
 
 // Core dependency
-cordapp "com.github.manosbatsis.corda.leanstatete:leanstate-contracts:$leanstate_version"
+cordapp "com.github.manosbatsis.corda.leanstate:leanstate-contracts:$leanstate_version"
 ```
 
 Step 3: You may also want to add the generated sources to your cordapp's 
