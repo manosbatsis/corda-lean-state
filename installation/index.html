@@ -340,9 +340,9 @@
 
 <span class="n">dependencies</span><span class="o">{</span>
     <span class="c1">// Core dependency</span>
-    <span class="n">cordaCompile</span> <span class="s2">&quot;com.github.manosbatsis.corda.leanstatete:leanstate-contracts:$leanstate_version&quot;</span>
+    <span class="n">cordaCompile</span> <span class="s2">&quot;com.github.manosbatsis.corda.leanstate:leanstate-contracts:$leanstate_version&quot;</span>
     <span class="c1">// Annotation processing</span>
-    <span class="n">kapt</span> <span class="s2">&quot;com.github.manosbatsis.corda.leanstatete:leanstate-processor:$leanstate_version&quot;</span>
+    <span class="n">kapt</span> <span class="s2">&quot;com.github.manosbatsis.corda.leanstate:leanstate-processor:$leanstate_version&quot;</span>
 
     <span class="c1">// Corda dependencies etc.</span>
     <span class="c1">// ...</span>
@@ -353,7 +353,7 @@
 in which case use <code>compile</code> instead of <code>cordacompile</code> and skip step 2 bellow.</p>
 <p>Step 2: Add LeanState as a Cordapp to your <code>deployNodes</code>/<code>dockerNodes</code> task:</p>
 <div class="highlight"><pre><span></span><code><span class="c1">// Core dependency</span>
-<span class="n">cordapp</span> <span class="s2">&quot;com.github.manosbatsis.corda.leanstatete:leanstate-contracts:$leanstate_version&quot;</span>
+<span class="n">cordapp</span> <span class="s2">&quot;com.github.manosbatsis.corda.leanstate:leanstate-contracts:$leanstate_version&quot;</span>
 </code></pre></div>
 <p>Step 3: You may also want to add the generated sources to your cordapp&rsquo;s 
 Gradle <code>sourceSets</code>:</p>
