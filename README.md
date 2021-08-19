@@ -20,7 +20,7 @@ see [state model](https://manosbatsis.github.io/corda-lean-state/state-model)
 and [full example](https://manosbatsis.github.io/corda-lean-state/full-example) 
 sections for details.
 
-Here's what `NewsPaper` above gets us with default settings (edited for brevity). 
+Here's what `NewsPaper` above will generate with default settings (edited for brevity). 
 Contract state:
 
 ```kotlin
@@ -39,7 +39,7 @@ data class NewsPaperContractState(
 }
 ```
 
-Persistent state:
+Persistent state (edited for brevity):
 
 ```kotlin
 @Entity @Table(name = "news_paper")
