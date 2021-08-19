@@ -1,6 +1,6 @@
 # Corda LeanState [![Maven Central](https://img.shields.io/maven-central/v/com.github.manosbatsis.corda.leanstate/leanstate-contracts.svg)](https://repo1.maven.org/maven2/com/github/manosbatsis/corda/leanstate/)
 
-Tired of manual maintenance of `ContractState` and `PersistentState` mappings?
+Shamelessly lazy or simply tired of manually maintaining `ContractState` / `PersistentState` mappings?
 LeanState (re)generates perfectly synced and consistent state classes at build-time, 
 based on model interfaces like `NewsPaper` bellow as input:
 
