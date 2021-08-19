@@ -284,6 +284,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#property-initializers" class="md-nav__link">
+    Property Initializers
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#overriding-linearstate" class="md-nav__link">
     Overriding LinearState
   </a>
@@ -315,13 +322,6 @@
           <li class="md-nav__item">
   <a href="#default-participants" class="md-nav__link">
     Default Participants
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#property-initializers" class="md-nav__link">
-    Property Initializers
   </a>
   
 </li>
@@ -438,6 +438,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#property-initializers" class="md-nav__link">
+    Property Initializers
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#overriding-linearstate" class="md-nav__link">
     Overriding LinearState
   </a>
@@ -469,13 +476,6 @@
           <li class="md-nav__item">
   <a href="#default-participants" class="md-nav__link">
     Default Participants
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#property-initializers" class="md-nav__link">
-    Property Initializers
   </a>
   
 </li>
@@ -552,6 +552,16 @@ file, we would specify the contract using <code>LeanStateModel.contractClass</co
     <span class="c1">//...</span>
 <span class="p">}</span>
 </code></pre></div>
+<h2 id="property-initializers">Property Initializers<a class="headerlink" href="#property-initializers" title="Permanent link">&para;</a></h2>
+<p>To add default value initializers to your contract state, use <code>@LeanStateProperty.initializer</code> like
+shown bellow:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@LeanStateModel</span>
+<span class="kd">interface</span> <span class="nc">NewsPaper</span> <span class="p">{</span>
+    <span class="c1">//...</span>
+    <span class="nd">@get</span><span class="p">:</span><span class="n">LeanStateProperty</span><span class="p">(</span><span class="n">initializer</span> <span class="o">=</span> <span class="s">&quot;NewsPaperStatus.FOOBAR&quot;</span><span class="p">)</span>
+    <span class="kd">val</span> <span class="nv">status</span><span class="p">:</span> <span class="n">NewsPaperStatus</span>
+<span class="p">}</span>
+</code></pre></div>
 <h2 id="overriding-linearstate">Overriding LinearState<a class="headerlink" href="#overriding-linearstate" title="Permanent link">&para;</a></h2>
 <p>If, for whatever reason, you need to customise the overrides  for <code>LinearState</code> you can 
 do it in your interface. The annotation processor will honor them by not generating its own.</p>
@@ -623,16 +633,6 @@ to create the default <code>participants</code> implementation:</p>
 <li>Types with a proper <code>party</code> member, e.g. <code>com.github.manosbatsis.vaultaire.dto.AccountParty</code> </li>
 <li>Any collection parameterised with one of the above</li>
 </ul>
-<h3 id="property-initializers">Property Initializers<a class="headerlink" href="#property-initializers" title="Permanent link">&para;</a></h3>
-<p>To add default value initializers to your contract state, use <code>@LeanStateProperty.initializer</code> like
-shown bellow:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@LeanStateModel</span>
-<span class="kd">interface</span> <span class="nc">NewsPaper</span> <span class="p">{</span>
-    <span class="c1">//...</span>
-    <span class="nd">@get</span><span class="p">:</span><span class="n">LeanStateProperty</span><span class="p">(</span><span class="n">initializer</span> <span class="o">=</span> <span class="s">&quot;NewsPaperStatus.FOOBAR&quot;</span><span class="p">)</span>
-    <span class="kd">val</span> <span class="nv">status</span><span class="p">:</span> <span class="n">NewsPaperStatus</span>
-<span class="p">}</span>
-</code></pre></div>
 <h2 id="property-mapping-modes">Property Mapping Modes<a class="headerlink" href="#property-mapping-modes" title="Permanent link">&para;</a></h2>
 <p>[LeanStateModel] and [LeanStateProperty] annotations allow configuration of Contract to Persistent State 
 property mappings using one or more of the following:</p>
