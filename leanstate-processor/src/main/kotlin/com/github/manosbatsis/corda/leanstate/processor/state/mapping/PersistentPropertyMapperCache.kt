@@ -44,6 +44,7 @@ class PersistentPropertyMapperCache(
                 ::PartyPersistentPropertyMapper,
                 ::CordaX500NamePersistentPropertyMapper,
                 ::LinearPointerPersistentPropertyMapper,
+                ::EnumPersistentPropertyMapper,
                 ::IdentityPersistentPropertyMapper
         )
     }
