@@ -140,6 +140,22 @@ to create the default `participants` implementation:
 - Types with a proper `party` member, e.g. `com.github.manosbatsis.vaultaire.dto.AccountParty` 
 - Any collection parameterised with one of the above
 
+
+### Property Initializers
+
+To add default value initializers to your contract state, use `@LeanStateProperty.initializer` like
+shown bellow:
+
+
+```kotlin
+@LeanStateModel
+interface NewsPaper {
+    //...
+    @get:LeanStateProperty(initializer = "NewsPaperStatus.FOOBAR")
+    val status: NewsPaperStatus
+}
+```
+
 ## Property Mapping Modes
 
 [LeanStateModel] and [LeanStateProperty] annotations allow configuration of Contract to Persistent State 
