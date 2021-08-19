@@ -46,7 +46,6 @@ abstract class BasePersistentPropertyMapper<T>(
             formula: String? = null
     ): MappedProperty {
 
-        println("asChildMappedProperty, propertyName: $propertyName, childPropertyName: $childPropertyName")
         var contextFieldElement = variableElement
         val mappedObjectInitializer = StringBuilder(propertyName)
         subPath.forEach { pathStep ->
@@ -56,21 +55,16 @@ abstract class BasePersistentPropertyMapper<T>(
                 propertyType.isNullable || childPropertyDefaults.second
             else propertyType.isNullable
             mappedObjectInitializer.append(if (pathSegmentNullable) "?." else ".").append(pathStep)
-            println("asChildMappedProperty, pathStep: $pathStep")
             val contextFieldTypeElement = contextFieldElement.asType().asTypeElement()
-            println("asChildMappedProperty, pathStep: $pathStep, contextFieldTypeElement: $contextFieldTypeElement")
             val contextFieldChildren = contextFieldTypeElement.accessibleConstructorParameterFields(true)
-            println("asChildMappedProperty, pathStep: $pathStep, contextFieldChildren(${contextFieldChildren.size}): ${contextFieldChildren.joinToString(",") { "${it.simpleName}" }}")
             contextFieldElement = contextFieldChildren.map {
                 val match = "${it.simpleName}" == pathStep
-                println("asChildMappedProperty, pathStep: $pathStep, field: ${it.simpleName}, match: $match")
                 it
             }
                     .find { "${it.simpleName}" == pathStep }
                     ?: error("Could not find field $pathStep in ${contextFieldTypeElement.asKotlinClassName().canonicalName}")
         }
         val childPropertyDefaults = delegate.toDefaultValueExpression(contextFieldElement)
-        println("asChildMappedProperty, childPropertyDefaults: $childPropertyDefaults")
         val childPropertyType = delegate.rootDtoMembersStrategy
                 .toPropertyTypeName(contextFieldElement)
                 .let { origPropType ->
@@ -87,7 +81,6 @@ abstract class BasePersistentPropertyMapper<T>(
 
                     propType.copy(nullable = nullable)
                 }
-        println("asChildMappedProperty, childPropertyType: $childPropertyType")
         return MappedProperty(
                 propertyName = "$childPropertyName${if (asString) "String" else ""}",
                 propertyPathSegments = propertyPathSegments + subPath,
