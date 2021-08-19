@@ -349,6 +349,9 @@
 
 <span class="o">}</span>    
 </code></pre></div>
+<p>Using the above may require you to manually add the LeanState contracts JAR 
+to Corda transactions as an attachment as needed. You can easily do that using<br />
+the <code>TransactionBuilder.attachLeanStateJar</code> extension function.</p>
 <p>Alternatively, you might want to add LeanState in the Cordapp&rsquo;s fat JAR, 
 in which case use <code>compile</code> instead of <code>cordacompile</code> and skip step 2 bellow.</p>
 <p>Step 2: Add LeanState as a Cordapp to your <code>deployNodes</code>/<code>dockerNodes</code> task:</p>

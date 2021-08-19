@@ -291,6 +291,20 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#custom-table-name" class="md-nav__link">
+    Custom Table Name
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-migration-resource" class="md-nav__link">
+    Custom Migration Resource
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#overriding-queryablestate" class="md-nav__link">
     Overriding QueryableState
   </a>
@@ -301,6 +315,13 @@
           <li class="md-nav__item">
   <a href="#default-participants" class="md-nav__link">
     Default Participants
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#property-initializers" class="md-nav__link">
+    Property Initializers
   </a>
   
 </li>
@@ -424,6 +445,20 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#custom-table-name" class="md-nav__link">
+    Custom Table Name
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-migration-resource" class="md-nav__link">
+    Custom Migration Resource
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#overriding-queryablestate" class="md-nav__link">
     Overriding QueryableState
   </a>
@@ -434,6 +469,13 @@
           <li class="md-nav__item">
   <a href="#default-participants" class="md-nav__link">
     Default Participants
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#property-initializers" class="md-nav__link">
+    Property Initializers
   </a>
   
 </li>
@@ -529,9 +571,26 @@ do it in your interface. The annotation processor will honor them by not generat
 
 <span class="p">}</span>
 </code></pre></div>
+<h2 id="custom-table-name">Custom Table Name<a class="headerlink" href="#custom-table-name" title="Permanent link">&para;</a></h2>
+<p>To customise the generated <code>@Table</code> annotation use <code>@LeanStateModel.tableName</code> like
+shown bellow:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@LeanStateModel</span><span class="p">(</span><span class="n">tableName</span> <span class="o">=</span> <span class="s">&quot;custom_table_name&quot;</span><span class="p">)</span>
+<span class="kd">interface</span> <span class="nc">NewsPaper</span> <span class="p">{</span>
+    <span class="c1">//...</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="custom-migration-resource">Custom Migration Resource<a class="headerlink" href="#custom-migration-resource" title="Permanent link">&para;</a></h2>
+<p>To customise the generated <code>MappedSchema</code> implementation for using a custom Liquibase <code>migrationResource</code>, 
+use <code>@LeanStateModel.migrationResource</code> like shown bellow:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@LeanStateModel</span><span class="p">(</span><span class="n">migrationResource</span> <span class="o">=</span> <span class="s">&quot;custom-newspaper-schema-v1.changelog-master.xml&quot;</span><span class="p">)</span>
+<span class="kd">interface</span> <span class="nc">NewsPaper</span> <span class="p">{</span>
+    <span class="c1">//...</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>this will generate</p>
 <h2 id="overriding-queryablestate">Overriding QueryableState<a class="headerlink" href="#overriding-queryablestate" title="Permanent link">&para;</a></h2>
-<p>You can also customise overrides  for <code>QueryableState</code> and, 
-similarly as above, the annotation processor will honor them by not generating its own.</p>
+<p>If besides all other options available you still want to directly customise overrides  for <code>QueryableState</code> 
+you can do so. The annotation processor will honor them by not generating its own.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@LeanStateModel</span>
 <span class="kd">interface</span> <span class="nc">NewsPaper</span><span class="p">:</span> <span class="n">QueryableState</span> <span class="p">{</span>
     <span class="kd">val</span> <span class="nv">publisher</span><span class="p">:</span> <span class="n">Party?</span>
@@ -564,6 +623,16 @@ to create the default <code>participants</code> implementation:</p>
 <li>Types with a proper <code>party</code> member, e.g. <code>com.github.manosbatsis.vaultaire.dto.AccountParty</code> </li>
 <li>Any collection parameterised with one of the above</li>
 </ul>
+<h3 id="property-initializers">Property Initializers<a class="headerlink" href="#property-initializers" title="Permanent link">&para;</a></h3>
+<p>To add default value initializers to your contract state, use <code>@LeanStateProperty.initializer</code> like
+shown bellow:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@LeanStateModel</span>
+<span class="kd">interface</span> <span class="nc">NewsPaper</span> <span class="p">{</span>
+    <span class="c1">//...</span>
+    <span class="nd">@get</span><span class="p">:</span><span class="n">LeanStateProperty</span><span class="p">(</span><span class="n">initializer</span> <span class="o">=</span> <span class="s">&quot;NewsPaperStatus.FOOBAR&quot;</span><span class="p">)</span>
+    <span class="kd">val</span> <span class="nv">status</span><span class="p">:</span> <span class="n">NewsPaperStatus</span>
+<span class="p">}</span>
+</code></pre></div>
 <h2 id="property-mapping-modes">Property Mapping Modes<a class="headerlink" href="#property-mapping-modes" title="Permanent link">&para;</a></h2>
 <p>[LeanStateModel] and [LeanStateProperty] annotations allow configuration of Contract to Persistent State 
 property mappings using one or more of the following:</p>

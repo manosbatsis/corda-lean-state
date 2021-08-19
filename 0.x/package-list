@@ -1,4 +1,5 @@
 $dokka.format:gfm
 $dokka.linkExtension:md
-
+$dokka.location:com.github.manosbatsis.corda.leanstate$attachLeanStateJar(net.corda.core.transactions.TransactionBuilder, net.corda.core.node.ServiceHub)com.github.manosbatsis.corda.leanstate/net.corda.core.transactions.-transaction-builder/attach-lean-state-jar.md
+com.github.manosbatsis.corda.leanstate
 com.github.manosbatsis.corda.leanstate.annotation
