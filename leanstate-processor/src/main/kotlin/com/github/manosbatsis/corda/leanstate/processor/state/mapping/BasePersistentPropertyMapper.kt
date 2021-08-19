@@ -34,10 +34,16 @@ abstract class BasePersistentPropertyMapper<T>(
         return map(original, delegate.getPersistentMappingModes(original.variableElement))
     }
 
+
+    fun MappedProperty.asStringifiedMappedProperty(formula: String? = null): MappedProperty{
+        return asChildMappedProperty(subPath = emptyList(), asString = true, formula = formula)
+    }
+
     fun MappedProperty.asChildMappedProperty(
             subPath: List<String>,
             childPropertyName: String = "${propertyName}${subPath.map { it.capitalize() }.joinToString("")}",
-            asString: Boolean = false
+            asString: Boolean = false,
+            formula: String? = null
     ): MappedProperty {
 
         println("asChildMappedProperty, propertyName: $propertyName, childPropertyName: $childPropertyName")
@@ -90,7 +96,8 @@ abstract class BasePersistentPropertyMapper<T>(
                 propertyDefaults = childPropertyDefaults,
                 variableElement = contextFieldElement,
                 asString = asString,
-                mappedObjectInitializer = mappedObjectInitializer.toString()
+                mappedObjectInitializer = mappedObjectInitializer.toString(),
+                formula = formula
         )
     }
 }

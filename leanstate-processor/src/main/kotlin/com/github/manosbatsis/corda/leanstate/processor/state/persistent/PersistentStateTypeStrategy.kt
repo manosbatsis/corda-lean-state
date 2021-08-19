@@ -22,6 +22,7 @@
 package com.github.manosbatsis.corda.leanstate.processor.state.persistent
 
 
+import com.github.manosbatsis.corda.leanstate.annotation.LeanStateModel
 import com.github.manosbatsis.corda.leanstate.processor.state.contract.ContractStateNameStrategy
 import com.github.manosbatsis.kotlin.utils.kapt.dto.strategy.composition.DtoStrategyLesserComposition
 import com.github.manosbatsis.kotlin.utils.kapt.dto.strategy.composition.SimpleDtoTypeStrategy
@@ -56,9 +57,14 @@ open class PersistentStateTypeStrategy(
 
     override fun addAnnotations(typeSpecBuilder: Builder) {
         typeSpecBuilder.addAnnotation(Entity::class.java)
-        val tableName = rootStrategy.getClassName().simpleName
-                .removeSuffix(rootStrategy.getClassNameSuffix())
-                .camelToUnderscores()
+        val tableName = annotatedElementInfo.primaryTargetTypeElement
+                .getAnnotation(LeanStateModel::class.java)
+                .tableName.let{
+                    if(it.isBlank()) rootStrategy.getClassName().simpleName
+                            .removeSuffix(rootStrategy.getClassNameSuffix())
+                            .camelToUnderscores()
+                    else it
+                }
         typeSpecBuilder.addAnnotation(
                 AnnotationSpec.builder(Table::class.java)
                         .addMember("name = %S", tableName)

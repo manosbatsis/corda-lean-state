@@ -27,6 +27,7 @@ import com.github.manosbatsis.corda.leanstate.processor.state.contract.ContractS
 import com.github.manosbatsis.kotlin.utils.kapt.dto.strategy.composition.DtoMembersStrategy
 import com.github.manosbatsis.kotlin.utils.kapt.dto.strategy.composition.DtoStrategyLesserComposition
 import com.squareup.kotlinpoet.*
+import org.hibernate.annotations.Formula
 import javax.lang.model.element.VariableElement
 import javax.persistence.Column
 
@@ -45,15 +46,18 @@ open class PersistentStateMembersStrategy(
             typeSpecBuilder: TypeSpec.Builder, baseMappedProperty: MappedProperty, fields: List<VariableElement>
     ): TypeSpec.Builder {
         persistentPropertyMapperCache.toPersistentProperties(baseMappedProperty).forEach { mappedProperty ->
-
+            val nullable = mappedProperty.propertyType.isNullable
+            val propertyType = if (mappedProperty.asString)
+                String::class.java.asTypeName().asKotlinTypeName().copy(nullable = nullable)
+            else mappedProperty.propertyType
 
             dtoConstructorBuilder.addParameter(
-                    ParameterSpec.builder(mappedProperty.propertyName, mappedProperty.propertyType)
+                    ParameterSpec.builder(mappedProperty.propertyName, propertyType)
                             .apply { mappedProperty.propertyDefaults?.first?.let { defaultValue(it) } }.build()
             )
             val propertySpecBuilder = rootDtoMembersStrategy.toPropertySpecBuilder(
                     mappedProperty.fieldIndex, mappedProperty.variableElement,
-                    mappedProperty.propertyName, mappedProperty.propertyType)
+                    mappedProperty.propertyName, propertyType)
                     .addKdoc("Enables query criteria for [%T.%L]${if (mappedProperty.asString) " as a [String]." else "."}", contractStateClassName, mappedProperty.propertyPathSegments.joinToString("."))
                     .copyOrAddColumnAnnotation(mappedProperty)
             typeSpecBuilder.addProperty(propertySpecBuilder.build())
@@ -70,6 +74,11 @@ open class PersistentStateMembersStrategy(
                             Column::class.java.canonicalName
                 }
                 ?.let { AnnotationSpec.get(it) }
+                ?: mappedProperty.formula?.let{
+                    AnnotationSpec.builder(Formula::class)
+                            .addMember("value = %S", it)
+                            .build()
+                }
                 ?: AnnotationSpec.builder(Column::class)
                         .addMember("name = %S", mappedProperty.propertyName.camelToUnderscores())
                         .also {

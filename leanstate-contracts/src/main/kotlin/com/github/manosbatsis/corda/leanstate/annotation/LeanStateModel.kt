@@ -56,7 +56,9 @@ annotation class LeanStateModel(
         val copyAnnotationPackages: Array<String> = [],
         val contractStateInterface: KClass<out ContractState> = ContractState::class,
         val contractStateName: String = "",
-        val persistentStateName: String = ""
+        val persistentStateName: String = "",
+        val tableName: String = "",
+        val migrationResource: String = ""
 )
 
 /**

@@ -35,12 +35,14 @@ class EnumPersistentPropertyMapper(
     )
 
     override fun map(original: MappedProperty, modes: List<PropertyMappingMode>): List<MappedProperty> {
+        val hasNative = modes.contains(PropertyMappingMode.NATIVE)
+        val hasStringified = modes.contains(PropertyMappingMode.STRINGIFY)
         return listOfNotNull(
-                if (modes.contains(PropertyMappingMode.NATIVE))
+                if (hasNative)
                     original
                 else null,
-                if (modes.contains(PropertyMappingMode.STRINGIFY) || modes.contains(PropertyMappingMode.EXPANDED))
-                    original.copy(asString = true)
+                if (hasStringified || modes.contains(PropertyMappingMode.EXPANDED))
+                    original.asStringifiedMappedProperty()
                 else null
         )
     }

@@ -18,21 +18,17 @@
  * USA
  */
 
+package com.github.manosbatsis.corda.leanstate
 
-package com.github.manosbatsis.corda.leanstate.processor.state
+import net.corda.core.node.ServiceHub
+import net.corda.core.transactions.TransactionBuilder
 
-import com.squareup.kotlinpoet.TypeName
-import javax.lang.model.element.VariableElement
+class LeanStateCordapp {
+}
 
-/** Used for contract to persistent state property mappings */
-data class MappedProperty(
-        val propertyName: String,
-        val propertyPathSegments: List<String> = listOf(propertyName),
-        val propertyType: TypeName,
-        val propertyDefaults: Pair<String, Boolean>? = null,
-        val fieldIndex: Int,
-        val variableElement: VariableElement,
-        val asString: Boolean = false,
-        val mappedObjectInitializer: String = propertyName,
-        val formula: String? = null
-)
+fun TransactionBuilder.attachLeanStateJar(serviceHub : ServiceHub) {
+    val contractSdkAttachment = serviceHub.attachments
+            .getLatestContractAttachments(LeanStateCordapp::class.qualifiedName!!)
+            .single()
+    addAttachment(contractSdkAttachment)
+}

@@ -20,6 +20,10 @@ dependencies{
 }    
 ```
 
+Using the above may require you to manually add the LeanState contracts JAR 
+to Corda transactions as an attachment as needed. You can easily do that using  
+the `TransactionBuilder.attachLeanStateJar` extension function.
+
 Alternatively, you might want to add LeanState in the Cordapp's fat JAR, 
 in which case use `compile` instead of `cordacompile` and skip step 2 bellow.
 

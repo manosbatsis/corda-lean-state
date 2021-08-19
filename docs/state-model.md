@@ -70,10 +70,39 @@ interface NewsPaper: LinearState {
 }
 ```
 
+
+## Custom Table Name
+
+To customise the generated `@Table` annotation use `@LeanStateModel.tableName` like
+shown bellow:
+
+
+```kotlin
+@LeanStateModel(tableName = "custom_table_name")
+interface NewsPaper {
+    //...
+}
+```
+
+## Custom Migration Resource
+
+To customise the generated `MappedSchema` implementation for using a custom Liquibase `migrationResource`, 
+use `@LeanStateModel.migrationResource` like shown bellow:
+
+
+```kotlin
+@LeanStateModel(migrationResource = "custom-newspaper-schema-v1.changelog-master.xml")
+interface NewsPaper {
+    //...
+}
+```
+
+this will generate
+
 ## Overriding QueryableState
 
-You can also customise overrides  for `QueryableState` and, 
-similarly as above, the annotation processor will honor them by not generating its own.
+If besides all other options available you still want to directly customise overrides  for `QueryableState` 
+you can do so. The annotation processor will honor them by not generating its own.
 
 
 ```kotlin

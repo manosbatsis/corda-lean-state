@@ -38,7 +38,7 @@ open class CordaX500NamePersistentPropertyMapper(
                     original
                 else null,
                 if (modes.contains(PropertyMappingMode.STRINGIFY))
-                    original.copy(asString = true)
+                    original.asStringifiedMappedProperty()
                 else null
         ) + if (modes.contains(PropertyMappingMode.EXPANDED))
             listOf(

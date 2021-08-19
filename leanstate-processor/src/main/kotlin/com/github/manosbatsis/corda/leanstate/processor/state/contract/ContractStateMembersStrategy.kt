@@ -21,6 +21,7 @@
 
 package com.github.manosbatsis.corda.leanstate.processor.state.contract
 
+import com.github.manosbatsis.corda.leanstate.annotation.LeanStateModel
 import com.github.manosbatsis.corda.leanstate.processor.state.BaseStateMembersStrategy
 import com.github.manosbatsis.corda.leanstate.processor.state.MappedProperty
 import com.github.manosbatsis.corda.leanstate.processor.state.persistent.PersistentStateNameStrategy
@@ -154,6 +155,17 @@ open class ContractStateMembersStrategy(
                     .addSuperclassConstructorParameter("Schema::class.java")
                     .addSuperclassConstructorParameter("1")
                     .addSuperclassConstructorParameter("listOf(%T::class.java)", persistentStateClassName)
+            // Maybe override migrationResource
+            annotatedElementInfo.primaryTargetTypeElement
+                    .getAnnotation(LeanStateModel::class.java)
+                    .migrationResource.let{
+                        if(it.isNotBlank())
+                            schemaV1ObjSpec.addProperty(PropertySpec
+                                    .builder("migrationResource", String::class, KModifier.OVERRIDE)
+                                    // Remove ".xml" suffix if needed
+                                    .initializer("%S", it.removeSuffix(".xml"))
+                                    .build())
+                    }
 
             typeSpecBuilder.addType(schemaObjSpec.build())
             typeSpecBuilder.addType(schemaV1ObjSpec.build())
