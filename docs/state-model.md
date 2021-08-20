@@ -63,10 +63,23 @@ interface NewsPaper {
 }
 ```
 
+## Default Participants
+
+The default strategy used by the annotation processor scans your interface and uses members of the following types
+to create the default `participants` implementation:
+
+- `net.corda.core.identity.Party`
+- `net.corda.core.identity.AbstractParty`
+- `net.corda.core.identity.AnonymousParty`
+- `java.security.PublicKey`
+- Types with a proper `party` member, e.g. `com.github.manosbatsis.vaultaire.dto.AccountParty`
+- Any collection parameterised with one of the above
+
+
 ## Overriding LinearState
 
-If, for whatever reason, you need to customise the overrides  for `LinearState` you can 
-do it in your interface. The annotation processor will honor them by not generating its own.
+If besides all other options available you still want to directly customise the overrides  
+for `LinearState` you can so it in your interface. The annotation processor will honor them by not generating its own.
 
 ```kotlin
 /** State definition */
@@ -118,7 +131,7 @@ this will generate
 ## Overriding QueryableState
 
 If besides all other options available you still want to directly customise overrides  for `QueryableState` 
-you can do so. The annotation processor will honor them by not generating its own.
+you can do so in your interface. The annotation processor will honor them by not generating its own.
 
 
 ```kotlin
@@ -143,18 +156,6 @@ interface NewsPaper: QueryableState {
 
 }
 ```
-
-### Default Participants
-
-The default strategy used by the annotation processor scans your interface and uses members of the following types 
-to create the default `participants` implementation:
-
-- `net.corda.core.identity.Party`
-- `net.corda.core.identity.AbstractParty`
-- `net.corda.core.identity.AnonymousParty`
-- `java.security.PublicKey`
-- Types with a proper `party` member, e.g. `com.github.manosbatsis.vaultaire.dto.AccountParty` 
-- Any collection parameterised with one of the above
 
 
 ## Property Mapping Modes
