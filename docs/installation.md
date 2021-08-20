@@ -2,7 +2,7 @@
 # Installation
 
 
-Step 1: Add to your Cordapp's Gradle dependencies:
+Step 1: Add Lean State to your Contract Cordapp's Gradle build-time dependencies:
 
 ```groovy
 // apply the kapt plugin
@@ -20,23 +20,13 @@ dependencies{
 }    
 ```
 
-Using the above may require you to manually add the LeanState contracts JAR 
-to Corda transactions as an attachment as needed. You can easily do that using  
-the `TransactionBuilder.attachLeanStateJar` extension function.
+> You __don't need any Lean State dependencies at runtime__. 
 
-Alternatively, you might want to add LeanState in the Cordapp's fat JAR, 
-in which case use `compile` instead of `cordacompile` and skip step 2 bellow.
+Again, no reason whatsoever to use `compile`, add dependencies to `deployNodes` 
+or copy Lean State JARs in your Node's cordapps folder. 
 
-Step 2: Add LeanState as a Cordapp to your `deployNodes`/`dockerNodes` task:
-
-```groovy
-
-// Core dependency
-cordapp "com.github.manosbatsis.corda.leanstate:leanstate-contracts:$leanstate_version"
-```
-
-Step 3: You may also want to add the generated sources to your cordapp's 
-Gradle `sourceSets`:
+Step 2: You may also want to add the generated sources to your cordapp's 
+Gradle `sourceSets` e.g.:
 
 ```groovy
 
