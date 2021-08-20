@@ -291,6 +291,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#default-participants" class="md-nav__link">
+    Default Participants
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#overriding-linearstate" class="md-nav__link">
     Overriding LinearState
   </a>
@@ -315,19 +322,6 @@
   <a href="#overriding-queryablestate" class="md-nav__link">
     Overriding QueryableState
   </a>
-  
-    <nav class="md-nav" aria-label="Overriding QueryableState">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#default-participants" class="md-nav__link">
-    Default Participants
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -445,6 +439,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#default-participants" class="md-nav__link">
+    Default Participants
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#overriding-linearstate" class="md-nav__link">
     Overriding LinearState
   </a>
@@ -469,19 +470,6 @@
   <a href="#overriding-queryablestate" class="md-nav__link">
     Overriding QueryableState
   </a>
-  
-    <nav class="md-nav" aria-label="Overriding QueryableState">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#default-participants" class="md-nav__link">
-    Default Participants
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -562,9 +550,20 @@ shown bellow:</p>
     <span class="kd">val</span> <span class="nv">status</span><span class="p">:</span> <span class="n">NewsPaperStatus</span>
 <span class="p">}</span>
 </code></pre></div>
+<h2 id="default-participants">Default Participants<a class="headerlink" href="#default-participants" title="Permanent link">&para;</a></h2>
+<p>The default strategy used by the annotation processor scans your interface and uses members of the following types
+to create the default <code>participants</code> implementation:</p>
+<ul>
+<li><code>net.corda.core.identity.Party</code></li>
+<li><code>net.corda.core.identity.AbstractParty</code></li>
+<li><code>net.corda.core.identity.AnonymousParty</code></li>
+<li><code>java.security.PublicKey</code></li>
+<li>Types with a proper <code>party</code> member, e.g. <code>com.github.manosbatsis.vaultaire.dto.AccountParty</code></li>
+<li>Any collection parameterised with one of the above</li>
+</ul>
 <h2 id="overriding-linearstate">Overriding LinearState<a class="headerlink" href="#overriding-linearstate" title="Permanent link">&para;</a></h2>
-<p>If, for whatever reason, you need to customise the overrides  for <code>LinearState</code> you can 
-do it in your interface. The annotation processor will honor them by not generating its own.</p>
+<p>If besides all other options available you still want to directly customise the overrides<br />
+for <code>LinearState</code> you can so it in your interface. The annotation processor will honor them by not generating its own.</p>
 <div class="highlight"><pre><span></span><code><span class="cm">/** State definition */</span>
 <span class="nd">@LeanStateModel</span>
 <span class="kd">interface</span> <span class="nc">NewsPaper</span><span class="p">:</span> <span class="n">LinearState</span> <span class="p">{</span>
@@ -600,7 +599,7 @@ use <code>@LeanStateModel.migrationResource</code> like shown bellow:</p>
 <p>this will generate</p>
 <h2 id="overriding-queryablestate">Overriding QueryableState<a class="headerlink" href="#overriding-queryablestate" title="Permanent link">&para;</a></h2>
 <p>If besides all other options available you still want to directly customise overrides  for <code>QueryableState</code> 
-you can do so. The annotation processor will honor them by not generating its own.</p>
+you can do so in your interface. The annotation processor will honor them by not generating its own.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@LeanStateModel</span>
 <span class="kd">interface</span> <span class="nc">NewsPaper</span><span class="p">:</span> <span class="n">QueryableState</span> <span class="p">{</span>
     <span class="kd">val</span> <span class="nv">publisher</span><span class="p">:</span> <span class="n">Party?</span>
@@ -622,17 +621,6 @@ you can do so. The annotation processor will honor them by not generating its ow
 
 <span class="p">}</span>
 </code></pre></div>
-<h3 id="default-participants">Default Participants<a class="headerlink" href="#default-participants" title="Permanent link">&para;</a></h3>
-<p>The default strategy used by the annotation processor scans your interface and uses members of the following types 
-to create the default <code>participants</code> implementation:</p>
-<ul>
-<li><code>net.corda.core.identity.Party</code></li>
-<li><code>net.corda.core.identity.AbstractParty</code></li>
-<li><code>net.corda.core.identity.AnonymousParty</code></li>
-<li><code>java.security.PublicKey</code></li>
-<li>Types with a proper <code>party</code> member, e.g. <code>com.github.manosbatsis.vaultaire.dto.AccountParty</code> </li>
-<li>Any collection parameterised with one of the above</li>
-</ul>
 <h2 id="property-mapping-modes">Property Mapping Modes<a class="headerlink" href="#property-mapping-modes" title="Permanent link">&para;</a></h2>
 <p>[LeanStateModel] and [LeanStateProperty] annotations allow configuration of Contract to Persistent State 
 property mappings using one or more of the following:</p>
