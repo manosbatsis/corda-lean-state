@@ -24,17 +24,12 @@ package com.github.manosbatsis.corda.leanstate.annotation
 import net.corda.core.contracts.ContractState
 import net.corda.core.identity.AbstractParty
 import net.corda.core.identity.AnonymousParty
-import net.corda.core.utilities.loggerFor
 import java.security.PublicKey
 import kotlin.reflect.full.memberProperties
 
 /** Helpers for (generated) implementations of [ContractState.participants]. */
 interface ParticipantsState {
     companion object {
-        private val logger = loggerFor<ParticipantsState>()
-        private const val partyFieldName = "party"
-        private const val partyGetterName = "getParty"
-
 
         fun Any.isKotlinType(): Boolean = this::class.java.isKotlinClass()
 
@@ -54,7 +49,7 @@ interface ParticipantsState {
             entry is PublicKey -> toAbstractParty(entry)
             entry.isKotlinType() -> toAbstractParty(entry.getField("party"))
             else -> entry.javaClass.declaredMethods
-                    .find { partyGetterName == it.name && it.isAccessible }
+                    .find { "getParty" == it.name && it.isAccessible }
                     ?.let { toAbstractParty(it.invoke(entry)) }
         }
     }

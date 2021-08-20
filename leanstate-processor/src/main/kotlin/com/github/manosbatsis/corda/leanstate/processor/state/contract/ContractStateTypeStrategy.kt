@@ -22,7 +22,6 @@
 package com.github.manosbatsis.corda.leanstate.processor.state.contract
 
 
-import com.github.manosbatsis.corda.leanstate.annotation.ParticipantsState
 import com.github.manosbatsis.kotlin.utils.kapt.dto.strategy.composition.DtoStrategyLesserComposition
 import com.github.manosbatsis.kotlin.utils.kapt.dto.strategy.composition.SimpleDtoTypeStrategy
 import com.squareup.kotlinpoet.AnnotationSpec
@@ -57,7 +56,6 @@ open class ContractStateTypeStrategy(
     override fun addSuperTypes(typeSpecBuilder: TypeSpec.Builder) {
         typeSpecBuilder.addSuperinterface(annotatedElementInfo.primaryTargetTypeElement.asKotlinClassName())
                 .addMissingSuperInterfaces(listOf(
-                        ParticipantsState::class.java,
                         LinearState::class.java,
                         QueryableState::class.java
                 ))

@@ -27,7 +27,12 @@ import com.github.manosbatsis.kotlin.utils.kapt.dto.strategy.ConstructorRefsComp
 import com.github.manosbatsis.kotlin.utils.kapt.processor.AbstractAnnotatedModelInfoProcessor
 import com.github.manosbatsis.kotlin.utils.kapt.processor.AnnotatedElementInfo
 import com.github.manosbatsis.kotlin.utils.kapt.processor.AnnotationProcessorBase
-import com.squareup.kotlinpoet.asClassName
+import com.github.manosbatsis.kotlin.utils.kapt.processor.AnnotationProcessorBase.Companion.TYPE_PARAMETER_STAR
+import com.squareup.kotlinpoet.*
+import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
+import net.corda.core.identity.AbstractParty
+import net.corda.core.identity.AnonymousParty
+import java.security.PublicKey
 import javax.annotation.processing.SupportedAnnotationTypes
 import javax.annotation.processing.SupportedOptions
 import javax.annotation.processing.SupportedSourceVersion
@@ -45,9 +50,26 @@ class LeanStateModelAnnotationProcessor : AbstractAnnotatedModelInfoProcessor(
         secondaryTargetRefAnnotationName = ""
 ) {
 
+
     override fun getFieldNameExclusions(): Set<String> = setOf("participants")
 
     override fun processElementInfos(elementInfos: List<AnnotatedElementInfo>) {
+        if(participantsStateClassName == null){
+            val leanstatePackage = elementInfos.map { it.generatedPackageName }
+                    .reduce { acc, string -> acc.commonPrefixWith(string) }
+                    .let {
+                        val base = if (it.endsWith(".")) it else it.substringBeforeLast(".")
+                        "$base.leanstate"
+                    }
+            val participantsStateSpec: TypeSpec = getParticipantsStateSpec(leanstatePackage)
+            getFileSpecBuilder(leanstatePackage, participantsStateSpec.name.toString())
+                    .addComment("\n")
+                    .addImport("kotlin.reflect.full", "memberProperties")
+                    .addType(participantsStateSpec)
+                    .build()
+                    .writeTo(sourceRootFile)
+        }
+
         elementInfos.forEach {
             processElementInfo(it)
         }
@@ -58,6 +80,7 @@ class LeanStateModelAnnotationProcessor : AbstractAnnotatedModelInfoProcessor(
 
         allStrategies.map { (_, strategy) ->
             val dtoStrategyBuilder = strategy.dtoTypeSpecBuilder()
+                    .also { if(strategy is ContractStateStrategy) it.addSuperinterface(participantsStateClassName!!) }
             val dto = dtoStrategyBuilder.build()
             val dtoClassName = strategy.getClassName()
             val fileName = dtoClassName.simpleName
@@ -94,6 +117,73 @@ class LeanStateModelAnnotationProcessor : AbstractAnnotatedModelInfoProcessor(
         ).toMap()
     }
 
+    companion object {
+        var participantsStateClassName: ClassName? = null
+        private fun getParticipantsStateSpec(leanstatePackage: String): TypeSpec {
+            participantsStateClassName = ClassName(leanstatePackage, "ParticipantsState")
+            return TypeSpec.interfaceBuilder(participantsStateClassName!!.simpleName)
+                    .addKdoc("Helpers for (generated) implementations of [ContractState.participants].")
+                    .addType(TypeSpec.companionObjectBuilder()
+
+                            .addFunction(FunSpec.builder("isKotlinClass")
+                                    .receiver(Class::class.asClassName().parameterizedBy(TYPE_PARAMETER_STAR))
+                                    .returns(Boolean::class)
+                                    .addCode("return declaredAnnotations.any { it.annotationClass.qualifiedName == \"kotlin.Metadata\" }")
+                                    .build())
+                            .addFunction(FunSpec.builder("isKotlinType")
+                                    .receiver(Any::class)
+                                    .returns(Boolean::class)
+                                    .addCode("return this::class.java.isKotlinClass()")
+                                    .build())
+                            .addFunction(FunSpec.builder("getField")
+                                    .addParameter("fieldName", String::class)
+                                    .receiver(Any::class)
+                                    .returns(Any::class.asClassName().copy(nullable = true))
+                                    .addCode("return  this::class.memberProperties.find { fieldName == it.name } ?.getter?.call(this)")
+                                    .build())
+                            .build())
+
+                    .addFunction(FunSpec.builder("toAbstractParty")
+                            .addParameter("publicKey", PublicKey::class)
+                            .returns(AbstractParty::class)
+                            .addCode("return %T(publicKey)", AnonymousParty::class)
+                            .build())
+                    .addFunction(FunSpec.builder("toAbstractParties")
+                            .addParameter("entries", Collection::class.asClassName()
+                                    .parameterizedBy(TYPE_PARAMETER_STAR).copy(nullable = true))
+                            .returns(List::class.asClassName().parameterizedBy(AbstractParty::class.asClassName()))
+                            .addCode("return entries?.mapNotNull { toAbstractParty(it) }  ?: emptyList()")
+                            .build())
+                    .addFunction(FunSpec.builder("toAbstractParty")
+                            .addParameter("entry", Any::class.asClassName().copy(nullable = true))
+                            .returns(AbstractParty::class.asClassName().copy(nullable = true))
+                            .addCode("""
+                                |return when {
+                                |    entry == null -> null
+                                |    entry is AbstractParty -> entry
+                                |    entry is PublicKey -> toAbstractParty(entry)
+                                |    entry.isKotlinType() -> toAbstractParty(entry.getField("party"))
+                                |    else -> entry.javaClass.declaredMethods
+                                |            .find { "getParty" == it.name && it.isAccessible }
+                                |            ?.let { toAbstractParty(it.invoke(entry)) }
+                                |}
+                                |""".trimMargin())
+                            .build())
+                    .addFunction(FunSpec.builder("toParticipants")
+                            .addParameter("entry", Any::class.asClassName().copy(nullable = true), KModifier.VARARG)
+                            .returns(List::class.asClassName().parameterizedBy(AbstractParty::class.asClassName()))
+                            .addCode("""
+                            |return entry.filterNotNull()
+                            |   .partition { it is Collection<*> }
+                            |   .run {
+                            |       first.map { toAbstractParties(it as Collection<*>) }
+                            |           .flatten() + second.mapNotNull { toAbstractParty(it) }
+                            |   }
+                            |""".trimMargin())
+                            .build())
+                    .build()
+        }
+    }
 }
 
 
