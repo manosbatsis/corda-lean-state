@@ -334,7 +334,7 @@
                 
                 
                 <h1 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h1>
-<p>Step 1: Add to your Cordapp&rsquo;s Gradle dependencies:</p>
+<p>Step 1: Add Lean State to your Contract Cordapp&rsquo;s Gradle build-time dependencies:</p>
 <div class="highlight"><pre><span></span><code><span class="c1">// apply the kapt plugin</span>
 <span class="n">apply</span> <span class="nl">plugin:</span> <span class="s1">&#39;kotlin-kapt&#39;</span>
 
@@ -349,17 +349,13 @@
 
 <span class="o">}</span>    
 </code></pre></div>
-<p>Using the above may require you to manually add the LeanState contracts JAR 
-to Corda transactions as an attachment as needed. You can easily do that using<br />
-the <code>TransactionBuilder.attachLeanStateJar</code> extension function.</p>
-<p>Alternatively, you might want to add LeanState in the Cordapp&rsquo;s fat JAR, 
-in which case use <code>compile</code> instead of <code>cordacompile</code> and skip step 2 bellow.</p>
-<p>Step 2: Add LeanState as a Cordapp to your <code>deployNodes</code>/<code>dockerNodes</code> task:</p>
-<div class="highlight"><pre><span></span><code><span class="c1">// Core dependency</span>
-<span class="n">cordapp</span> <span class="s2">&quot;com.github.manosbatsis.corda.leanstate:leanstate-contracts:$leanstate_version&quot;</span>
-</code></pre></div>
-<p>Step 3: You may also want to add the generated sources to your cordapp&rsquo;s 
-Gradle <code>sourceSets</code>:</p>
+<blockquote>
+<p>You <strong>don&rsquo;t need any Lean State dependencies at runtime</strong>. </p>
+</blockquote>
+<p>Again, no reason whatsoever to use <code>compile</code>, add dependencies to <code>deployNodes</code> 
+or copy Lean State JARs in your Node&rsquo;s cordapps folder. </p>
+<p>Step 2: You may also want to add the generated sources to your cordapp&rsquo;s 
+Gradle <code>sourceSets</code> e.g.:</p>
 <div class="highlight"><pre><span></span><code><span class="c1">// Define an extra sources variable</span>
 <span class="kt">def</span> <span class="n">generatedSourcesDir</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="na">file</span><span class="o">(</span><span class="s2">&quot;build/generated/source/kaptKotlin/main&quot;</span><span class="o">)</span>
 <span class="c1">// Tell Gradle about the extra source set</span>
