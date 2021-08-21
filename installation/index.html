@@ -334,14 +334,16 @@
                 
                 
                 <h1 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h1>
-<p>Step 1: Add Lean State to your Contract Cordapp&rsquo;s Gradle build-time dependencies:</p>
+<p>Step 1: Add Lean State to your Contract Cordapp&rsquo;s Gradle dependencies and apply 
+kotlin&rsquo;s kapt and jpa plugins:</p>
 <div class="highlight"><pre><span></span><code><span class="c1">// apply the kapt plugin</span>
 <span class="n">apply</span> <span class="nl">plugin:</span> <span class="s1">&#39;kotlin-kapt&#39;</span>
+<span class="c1">// apply the kapt plugin</span>
+<span class="n">apply</span> <span class="nl">plugin:</span> <span class="s1">&#39;kotlin-jpa&#39;</span>
 
 <span class="n">dependencies</span><span class="o">{</span>
-    <span class="c1">// Core dependency</span>
+    <span class="c1">// Lean State dependencies</span>
     <span class="n">cordaCompile</span> <span class="s2">&quot;com.github.manosbatsis.corda.leanstate:leanstate-contracts:$leanstate_version&quot;</span>
-    <span class="c1">// Annotation processing</span>
     <span class="n">kapt</span> <span class="s2">&quot;com.github.manosbatsis.corda.leanstate:leanstate-processor:$leanstate_version&quot;</span>
 
     <span class="c1">// Corda dependencies etc.</span>
@@ -349,10 +351,8 @@
 
 <span class="o">}</span>    
 </code></pre></div>
-<blockquote>
-<p>You <strong>don&rsquo;t need any Lean State dependencies at runtime</strong>. </p>
-</blockquote>
-<p>Again, no reason whatsoever to use <code>compile</code>, add dependencies to <code>deployNodes</code> 
+<p>Please note: you <strong>don&rsquo;t</strong> need any Lean State dependencies at runtime. 
+No reason whatsoever to use <code>compile</code>, add dependencies to <code>deployNodes</code> 
 or copy Lean State JARs in your Node&rsquo;s cordapps folder. </p>
 <p>Step 2: You may also want to add the generated sources to your cordapp&rsquo;s 
 Gradle <code>sourceSets</code> e.g.:</p>
