@@ -45,43 +45,50 @@ data class NewsPaperContractState(
   override val published: Date = Date(),
   override val alternativeTitle: String? = null
 ) : NewsPaperContract.NewsPaper, ParticipantsState, LinearState, QueryableState {
-  override val participants: List<AbstractParty>
-    get() = toParticipants(publisher,author)
+    
+    override val participants: List<AbstractParty>
+        get() = toParticipants(publisher,author)
 
-  override fun generateMappedObject(schema: MappedSchema): NewsPaperPersistentState =
-      NewsPaperPersistentState(
-        linearId = linearId,
-        linearIdIdString = linearId.id.toString(),
-        linearIdId = linearId.id,
-        linearIdExternalId = linearId.externalId,
-        publisherName = publisher?.name,
-        publisherNameString = publisher?.name?.toString(),
-        publisherNameCommonName = publisher?.name?.commonName,
-        publisherNameOrganisationUnit = publisher?.name?.organisationUnit,
-        publisherNameOrganisation = publisher?.name?.organisation,
-        publisherNameLocality = publisher?.name?.locality,
-        publisherNameState = publisher?.name?.state,
-        publisherNameCountry = publisher?.name?.country,
-        authorName = author.name,
-        authorNameString = author.name.toString(),
-        authorNameCommonName = author.name.commonName,
-        authorNameOrganisationUnit = author.name.organisationUnit,
-        authorNameOrganisation = author.name.organisation,
-        authorNameLocality = author.name.locality,
-        authorNameState = author.name.state,
-        authorNameCountry = author.name.country,
-        price = price,
-        editions = editions,
-        title = title,
-        published = published,
-        alternativeTitle = alternativeTitle
-    )
-
-
-  override fun supportedSchemas(): Iterable<MappedSchema> = listOf(SchemaV1)
-  object Schema
-
-  object SchemaV1 : MappedSchema(Schema::class.java, 1,
+    override fun generateMappedObject(schema: MappedSchema): NewsPaperPersistentState {
+        return when(schema) {
+            is SchemaV1 -> {
+                NewsPaperPersistentState(
+                        linearIdIdString = linearId.id.toString(),
+                        linearIdId = linearId.id,
+                        linearIdExternalId = linearId.externalId,
+                        publisherName = publisher?.name,
+                        publisherNameString = publisher?.name?.toString(),
+                        publisherNameCommonName = publisher?.name?.commonName,
+                        publisherNameOrganisationUnit = publisher?.name?.organisationUnit,
+                        publisherNameOrganisation = publisher?.name?.organisation,
+                        publisherNameLocality = publisher?.name?.locality,
+                        publisherNameState = publisher?.name?.state,
+                        publisherNameCountry = publisher?.name?.country,
+                        authorName = author.name,
+                        authorNameString = author.name.toString(),
+                        authorNameCommonName = author.name.commonName,
+                        authorNameOrganisationUnit = author.name.organisationUnit,
+                        authorNameOrganisation = author.name.organisation,
+                        authorNameLocality = author.name.locality,
+                        authorNameState = author.name.state,
+                        authorNameCountry = author.name.country,
+                        price = price,
+                        editions = editions,
+                        title = title,
+                        published = published,
+                        alternativeTitle = alternativeTitle
+                )
+            }
+            else ->  {
+                throw IllegalArgumentException("Unrecognised schema $schema")
+            }
+        }
+    }
+    
+    override fun supportedSchemas(): Iterable<MappedSchema> = listOf(SchemaV1)
+    object Schema
+    
+    object SchemaV1 : MappedSchema(Schema::class.java, 1,
       listOf(NewsPaperPersistentState::class.java))
 }
 

@@ -63,8 +63,11 @@ open class ContractStateMembersStrategy(
 
 
     val generateMappedObjectFuncCodeBuilder by lazy {
-        CodeBlock.builder().addStatement("return %L(", persistentStateClassName.simpleName)
-                .indent().indent().indent()
+        CodeBlock.builder().addStatement("")
+                .indent().beginControlFlow("return when(schema)")
+                .indent().beginControlFlow("is SchemaV1 ->", persistentStateClassName.simpleName)
+                .indent().addStatement("%L(", persistentStateClassName.simpleName)
+                .indent()
     }
 
 
@@ -121,8 +124,15 @@ open class ContractStateMembersStrategy(
         maybeImplementParticipants(typeSpecBuilder)
 
         // Complete generateMappedObject function
+        generateMappedObjectFuncCodeBuilder
+                .unindent().addStatement(")\n")
+                .unindent().endControlFlow()
+                .beginControlFlow("else -> ")
+                .indent().addStatement("throw IllegalArgumentException(\"Unrecognised schema \$schema\")")
+                .unindent().endControlFlow()
+                .unindent().endControlFlow()
         typeSpecBuilder.addFunction(generateMappedObjectFuncSpecBuilder
-                .addCode(generateMappedObjectFuncCodeBuilder.unindent().unindent().addStatement(")\n").build().toString())
+                .addCode(generateMappedObjectFuncCodeBuilder.build().toString())
                 .build())
 
         // Add supportedSchemas func and schema objects if needed
