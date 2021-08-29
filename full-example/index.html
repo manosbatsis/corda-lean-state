@@ -444,43 +444,50 @@
   <span class="kd">override</span> <span class="kd">val</span> <span class="nv">published</span><span class="p">:</span> <span class="n">Date</span> <span class="o">=</span> <span class="n">Date</span><span class="p">(),</span>
   <span class="kd">override</span> <span class="kd">val</span> <span class="nv">alternativeTitle</span><span class="p">:</span> <span class="kt">String?</span> <span class="o">=</span> <span class="kc">null</span>
 <span class="p">)</span> <span class="p">:</span> <span class="n">NewsPaperContract</span><span class="p">.</span><span class="na">NewsPaper</span><span class="p">,</span> <span class="n">ParticipantsState</span><span class="p">,</span> <span class="n">LinearState</span><span class="p">,</span> <span class="n">QueryableState</span> <span class="p">{</span>
-  <span class="kd">override</span> <span class="kd">val</span> <span class="nv">participants</span><span class="p">:</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">AbstractParty</span><span class="o">&gt;</span>
-    <span class="k">get</span><span class="p">()</span> <span class="o">=</span> <span class="n">toParticipants</span><span class="p">(</span><span class="n">publisher</span><span class="p">,</span><span class="n">author</span><span class="p">)</span>
 
-  <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">generateMappedObject</span><span class="p">(</span><span class="n">schema</span><span class="p">:</span> <span class="n">MappedSchema</span><span class="p">):</span> <span class="n">NewsPaperPersistentState</span> <span class="o">=</span>
-      <span class="n">NewsPaperPersistentState</span><span class="p">(</span>
-        <span class="n">linearId</span> <span class="o">=</span> <span class="n">linearId</span><span class="p">,</span>
-        <span class="n">linearIdIdString</span> <span class="o">=</span> <span class="n">linearId</span><span class="p">.</span><span class="na">id</span><span class="p">.</span><span class="na">toString</span><span class="p">(),</span>
-        <span class="n">linearIdId</span> <span class="o">=</span> <span class="n">linearId</span><span class="p">.</span><span class="na">id</span><span class="p">,</span>
-        <span class="n">linearIdExternalId</span> <span class="o">=</span> <span class="n">linearId</span><span class="p">.</span><span class="na">externalId</span><span class="p">,</span>
-        <span class="n">publisherName</span> <span class="o">=</span> <span class="n">publisher</span><span class="o">?.</span><span class="na">name</span><span class="p">,</span>
-        <span class="n">publisherNameString</span> <span class="o">=</span> <span class="n">publisher</span><span class="o">?.</span><span class="na">name</span><span class="o">?.</span><span class="na">toString</span><span class="p">(),</span>
-        <span class="n">publisherNameCommonName</span> <span class="o">=</span> <span class="n">publisher</span><span class="o">?.</span><span class="na">name</span><span class="o">?.</span><span class="na">commonName</span><span class="p">,</span>
-        <span class="n">publisherNameOrganisationUnit</span> <span class="o">=</span> <span class="n">publisher</span><span class="o">?.</span><span class="na">name</span><span class="o">?.</span><span class="na">organisationUnit</span><span class="p">,</span>
-        <span class="n">publisherNameOrganisation</span> <span class="o">=</span> <span class="n">publisher</span><span class="o">?.</span><span class="na">name</span><span class="o">?.</span><span class="na">organisation</span><span class="p">,</span>
-        <span class="n">publisherNameLocality</span> <span class="o">=</span> <span class="n">publisher</span><span class="o">?.</span><span class="na">name</span><span class="o">?.</span><span class="na">locality</span><span class="p">,</span>
-        <span class="n">publisherNameState</span> <span class="o">=</span> <span class="n">publisher</span><span class="o">?.</span><span class="na">name</span><span class="o">?.</span><span class="na">state</span><span class="p">,</span>
-        <span class="n">publisherNameCountry</span> <span class="o">=</span> <span class="n">publisher</span><span class="o">?.</span><span class="na">name</span><span class="o">?.</span><span class="na">country</span><span class="p">,</span>
-        <span class="n">authorName</span> <span class="o">=</span> <span class="n">author</span><span class="p">.</span><span class="na">name</span><span class="p">,</span>
-        <span class="n">authorNameString</span> <span class="o">=</span> <span class="n">author</span><span class="p">.</span><span class="na">name</span><span class="p">.</span><span class="na">toString</span><span class="p">(),</span>
-        <span class="n">authorNameCommonName</span> <span class="o">=</span> <span class="n">author</span><span class="p">.</span><span class="na">name</span><span class="p">.</span><span class="na">commonName</span><span class="p">,</span>
-        <span class="n">authorNameOrganisationUnit</span> <span class="o">=</span> <span class="n">author</span><span class="p">.</span><span class="na">name</span><span class="p">.</span><span class="na">organisationUnit</span><span class="p">,</span>
-        <span class="n">authorNameOrganisation</span> <span class="o">=</span> <span class="n">author</span><span class="p">.</span><span class="na">name</span><span class="p">.</span><span class="na">organisation</span><span class="p">,</span>
-        <span class="n">authorNameLocality</span> <span class="o">=</span> <span class="n">author</span><span class="p">.</span><span class="na">name</span><span class="p">.</span><span class="na">locality</span><span class="p">,</span>
-        <span class="n">authorNameState</span> <span class="o">=</span> <span class="n">author</span><span class="p">.</span><span class="na">name</span><span class="p">.</span><span class="na">state</span><span class="p">,</span>
-        <span class="n">authorNameCountry</span> <span class="o">=</span> <span class="n">author</span><span class="p">.</span><span class="na">name</span><span class="p">.</span><span class="na">country</span><span class="p">,</span>
-        <span class="n">price</span> <span class="o">=</span> <span class="n">price</span><span class="p">,</span>
-        <span class="n">editions</span> <span class="o">=</span> <span class="n">editions</span><span class="p">,</span>
-        <span class="n">title</span> <span class="o">=</span> <span class="n">title</span><span class="p">,</span>
-        <span class="n">published</span> <span class="o">=</span> <span class="n">published</span><span class="p">,</span>
-        <span class="n">alternativeTitle</span> <span class="o">=</span> <span class="n">alternativeTitle</span>
-    <span class="p">)</span>
+    <span class="kd">override</span> <span class="kd">val</span> <span class="nv">participants</span><span class="p">:</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">AbstractParty</span><span class="o">&gt;</span>
+        <span class="k">get</span><span class="p">()</span> <span class="o">=</span> <span class="n">toParticipants</span><span class="p">(</span><span class="n">publisher</span><span class="p">,</span><span class="n">author</span><span class="p">)</span>
 
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">generateMappedObject</span><span class="p">(</span><span class="n">schema</span><span class="p">:</span> <span class="n">MappedSchema</span><span class="p">):</span> <span class="n">NewsPaperPersistentState</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">when</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">is</span> <span class="n">SchemaV1</span> <span class="o">-&gt;</span> <span class="p">{</span>
+                <span class="n">NewsPaperPersistentState</span><span class="p">(</span>
+                        <span class="n">linearIdIdString</span> <span class="o">=</span> <span class="n">linearId</span><span class="p">.</span><span class="na">id</span><span class="p">.</span><span class="na">toString</span><span class="p">(),</span>
+                        <span class="n">linearIdId</span> <span class="o">=</span> <span class="n">linearId</span><span class="p">.</span><span class="na">id</span><span class="p">,</span>
+                        <span class="n">linearIdExternalId</span> <span class="o">=</span> <span class="n">linearId</span><span class="p">.</span><span class="na">externalId</span><span class="p">,</span>
+                        <span class="n">publisherName</span> <span class="o">=</span> <span class="n">publisher</span><span class="o">?.</span><span class="na">name</span><span class="p">,</span>
+                        <span class="n">publisherNameString</span> <span class="o">=</span> <span class="n">publisher</span><span class="o">?.</span><span class="na">name</span><span class="o">?.</span><span class="na">toString</span><span class="p">(),</span>
+                        <span class="n">publisherNameCommonName</span> <span class="o">=</span> <span class="n">publisher</span><span class="o">?.</span><span class="na">name</span><span class="o">?.</span><span class="na">commonName</span><span class="p">,</span>
+                        <span class="n">publisherNameOrganisationUnit</span> <span class="o">=</span> <span class="n">publisher</span><span class="o">?.</span><span class="na">name</span><span class="o">?.</span><span class="na">organisationUnit</span><span class="p">,</span>
+                        <span class="n">publisherNameOrganisation</span> <span class="o">=</span> <span class="n">publisher</span><span class="o">?.</span><span class="na">name</span><span class="o">?.</span><span class="na">organisation</span><span class="p">,</span>
+                        <span class="n">publisherNameLocality</span> <span class="o">=</span> <span class="n">publisher</span><span class="o">?.</span><span class="na">name</span><span class="o">?.</span><span class="na">locality</span><span class="p">,</span>
+                        <span class="n">publisherNameState</span> <span class="o">=</span> <span class="n">publisher</span><span class="o">?.</span><span class="na">name</span><span class="o">?.</span><span class="na">state</span><span class="p">,</span>
+                        <span class="n">publisherNameCountry</span> <span class="o">=</span> <span class="n">publisher</span><span class="o">?.</span><span class="na">name</span><span class="o">?.</span><span class="na">country</span><span class="p">,</span>
+                        <span class="n">authorName</span> <span class="o">=</span> <span class="n">author</span><span class="p">.</span><span class="na">name</span><span class="p">,</span>
+                        <span class="n">authorNameString</span> <span class="o">=</span> <span class="n">author</span><span class="p">.</span><span class="na">name</span><span class="p">.</span><span class="na">toString</span><span class="p">(),</span>
+                        <span class="n">authorNameCommonName</span> <span class="o">=</span> <span class="n">author</span><span class="p">.</span><span class="na">name</span><span class="p">.</span><span class="na">commonName</span><span class="p">,</span>
+                        <span class="n">authorNameOrganisationUnit</span> <span class="o">=</span> <span class="n">author</span><span class="p">.</span><span class="na">name</span><span class="p">.</span><span class="na">organisationUnit</span><span class="p">,</span>
+                        <span class="n">authorNameOrganisation</span> <span class="o">=</span> <span class="n">author</span><span class="p">.</span><span class="na">name</span><span class="p">.</span><span class="na">organisation</span><span class="p">,</span>
+                        <span class="n">authorNameLocality</span> <span class="o">=</span> <span class="n">author</span><span class="p">.</span><span class="na">name</span><span class="p">.</span><span class="na">locality</span><span class="p">,</span>
+                        <span class="n">authorNameState</span> <span class="o">=</span> <span class="n">author</span><span class="p">.</span><span class="na">name</span><span class="p">.</span><span class="na">state</span><span class="p">,</span>
+                        <span class="n">authorNameCountry</span> <span class="o">=</span> <span class="n">author</span><span class="p">.</span><span class="na">name</span><span class="p">.</span><span class="na">country</span><span class="p">,</span>
+                        <span class="n">price</span> <span class="o">=</span> <span class="n">price</span><span class="p">,</span>
+                        <span class="n">editions</span> <span class="o">=</span> <span class="n">editions</span><span class="p">,</span>
+                        <span class="n">title</span> <span class="o">=</span> <span class="n">title</span><span class="p">,</span>
+                        <span class="n">published</span> <span class="o">=</span> <span class="n">published</span><span class="p">,</span>
+                        <span class="n">alternativeTitle</span> <span class="o">=</span> <span class="n">alternativeTitle</span>
+                <span class="p">)</span>
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="o">-&gt;</span>  <span class="p">{</span>
+                <span class="k">throw</span> <span class="n">IllegalArgumentException</span><span class="p">(</span><span class="s">&quot;Unrecognised schema </span><span class="si">$</span><span class="n">schema</span><span class="s">&quot;</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
 
-  <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">supportedSchemas</span><span class="p">():</span> <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">MappedSchema</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">listOf</span><span class="p">(</span><span class="n">SchemaV1</span><span class="p">)</span>
-  <span class="kd">object</span> <span class="nc">Schema</span>
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">supportedSchemas</span><span class="p">():</span> <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">MappedSchema</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">listOf</span><span class="p">(</span><span class="n">SchemaV1</span><span class="p">)</span>
+    <span class="kd">object</span> <span class="nc">Schema</span>
 
-  <span class="kd">object</span> <span class="nc">SchemaV1</span> <span class="p">:</span> <span class="n">MappedSchema</span><span class="p">(</span><span class="n">Schema</span><span class="o">::</span><span class="n">class</span><span class="p">.</span><span class="na">java</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span>
+    <span class="kd">object</span> <span class="nc">SchemaV1</span> <span class="p">:</span> <span class="n">MappedSchema</span><span class="p">(</span><span class="n">Schema</span><span class="o">::</span><span class="n">class</span><span class="p">.</span><span class="na">java</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span>
       <span class="n">listOf</span><span class="p">(</span><span class="n">NewsPaperPersistentState</span><span class="o">::</span><span class="n">class</span><span class="p">.</span><span class="na">java</span><span class="p">))</span>
 <span class="p">}</span>
 </code></pre></div>
